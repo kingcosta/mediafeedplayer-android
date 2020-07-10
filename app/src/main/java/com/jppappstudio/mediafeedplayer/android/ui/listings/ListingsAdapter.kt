@@ -5,18 +5,26 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
+import androidx.appcompat.widget.SearchView
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.jppappstudio.mediafeedplayer.android.R
+import com.jppappstudio.mediafeedplayer.android.models.Channel
 import com.jppappstudio.mediafeedplayer.android.models.Listing
 import com.jppappstudio.mediafeedplayer.android.ui.player.PlayerActivity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.listing_row.view.*
 
-class ListingsAdapter(val listings: List<Listing>): RecyclerView.Adapter<ListingsViewHolder>() {
+class ListingsAdapter: RecyclerView.Adapter<ListingsViewHolder>(), Filterable {
+
+    private var listings = emptyList<Listing>()
+    private var listingsFiltered = mutableListOf<Listing>()
+    private var listingsAll = emptyList<Listing>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListingsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -51,11 +59,50 @@ class ListingsAdapter(val listings: List<Listing>): RecyclerView.Adapter<Listing
         holder.listing = listing
     }
 
+    fun setListings(listings: List<Listing>) {
+        this.listings = listings
+        this.listingsAll = listings
+        notifyDataSetChanged()
+    }
+
+    override fun getFilter(): Filter {
+        return filter
+    }
+
+    private var filter = object : Filter() {
+
+        // run on background thread
+        override fun performFiltering(charSequence: CharSequence?): FilterResults {
+            listingsFiltered.clear()
+
+            if (charSequence.toString().isEmpty()) {
+                listingsFiltered.addAll(listingsAll)
+            } else {
+                for (listing in listingsAll) {
+                    if (listing.title.toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                        listingsFiltered.add(listing)
+                    }
+                }
+            }
+
+            val filterResult = FilterResults()
+            filterResult.values = listingsFiltered
+            return filterResult
+        }
+
+        // run on UI thread
+        override fun publishResults(charSequence: CharSequence?, filterResults: FilterResults?) {
+            listings = filterResults?.values as List<Listing>
+            notifyDataSetChanged()
+        }
+    }
 }
 
 class ListingsViewHolder(val view: View, var listing: Listing? = null): RecyclerView.ViewHolder(view) {
     init {
         view.setOnClickListener {
+
+
 
             listing?.let {
 
@@ -65,6 +112,7 @@ class ListingsViewHolder(val view: View, var listing: Listing? = null): Recycler
                             "listingTitle" to it.title,
                             "listingURL" to it.url
                         )
+
                         Navigation.findNavController(view).navigate(R.id.openListingsFromListing, bundle)
                     }
 

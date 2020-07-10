@@ -1,16 +1,17 @@
 package com.jppappstudio.mediafeedplayer.android.ui.listings
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.jppappstudio.mediafeedplayer.android.R
 import com.jppappstudio.mediafeedplayer.android.models.Listing
+import com.jppappstudio.mediafeedplayer.android.ui.channels.ChannelsAdapter
 import kotlinx.android.synthetic.main.fragment_listings.*
 import kotlinx.android.synthetic.main.fragment_listings.view.*
 import okhttp3.*
@@ -25,6 +26,10 @@ class ListingsFragment : Fragment() {
     var listingURL: String? = null
     var listings: List<Listing> = listOf()
     lateinit var progressBar: ProgressBar
+    lateinit var searchView: SearchView
+
+    private lateinit var viewAdapter: ListingsAdapter
+    private lateinit var viewManager: RecyclerView.LayoutManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,19 +40,49 @@ class ListingsFragment : Fragment() {
         listingTitle = arguments?.getString("listingTitle")
         listingURL = arguments?.getString("listingURL")
 
+        viewAdapter = ListingsAdapter()
+        viewManager = LinearLayoutManager(activity)
+
         (activity as AppCompatActivity).supportActionBar?.title = listingTitle
 
         val root = inflater.inflate(R.layout.fragment_listings, container, false)
-        root.recyclerview_listings.layoutManager = LinearLayoutManager(activity)
+
+        root.recyclerview_listings.apply {
+            setHasFixedSize(true)
+            adapter = viewAdapter
+            layoutManager = viewManager
+        }
+
         progressBar = root.progressBar_listing
 
+        setHasOptionsMenu(true)
         fetchRecord()
+
+//        if (searchView.isIconified == false) {
+//            searchView.isIconified = true
+//        }
 
         return root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        println("onCreateOptionsMenu")
+        super.onCreateOptionsMenu(menu, inflater)
+
+        inflater.inflate(R.menu.listings_actionbar_menu, menu)
+        var item = menu.findItem(R.id.listings_search)
+        searchView = item.actionView as SearchView
+
+        searchView.setOnQueryTextListener( object: SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(newText: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                viewAdapter.getFilter().filter(newText)
+                return false
+            }
+        })
     }
 
     fun String.toMD5(): String {
@@ -85,9 +120,7 @@ class ListingsFragment : Fragment() {
 
                                 activity?.runOnUiThread {
                                     progressBar.visibility = View.INVISIBLE
-                                    recyclerview_listings.adapter = ListingsAdapter(listings)
-
-//                                    InterstitialManager.createInterstitial(context!!)
+                                    viewAdapter.setListings(listings)
                                 }
                             } catch (exception: XmlPullParserException) {
                                 println("Parsing Exception: ${exception.localizedMessage}")
