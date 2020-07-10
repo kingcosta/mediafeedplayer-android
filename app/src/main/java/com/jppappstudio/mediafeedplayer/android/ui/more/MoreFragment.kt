@@ -20,12 +20,12 @@ class MoreFragment : PreferenceFragmentCompat() {
         // Feedback Category
         val feedbackCategory = PreferenceCategory(context)
         feedbackCategory.key = "feedback_category"
-        feedbackCategory.title = "Feedback"
+        feedbackCategory.title = getString(R.string.more_feedback)
         screen.addPreference(feedbackCategory)
 
 //        val ratePreference = Preference(context)
 //        ratePreference.key = "rate"
-//        ratePreference.title = "Rate us on Play Store"
+//        ratePreference.title = getString(R.string.more_rate)
 //        ratePreference.setOnPreferenceClickListener {
 //            onPreferenceClick(it)
 //            true
@@ -34,7 +34,7 @@ class MoreFragment : PreferenceFragmentCompat() {
 
         val tellPreference = Preference(context)
         tellPreference.key = "tell"
-        tellPreference.title = "Tell us your feedback"
+        tellPreference.title = getString(R.string.more_tell)
         tellPreference.setOnPreferenceClickListener {
             onPreferenceClick(it)
             true
@@ -44,12 +44,12 @@ class MoreFragment : PreferenceFragmentCompat() {
         // Follow Us Category
         val followCategory = PreferenceCategory(context)
         followCategory.key = "follow_category"
-        followCategory.title = "Follow Us"
+        followCategory.title = getString(R.string.more_follow)
         screen.addPreference(followCategory)
 
         val fbPreference = Preference(context)
         fbPreference.key = "facebook"
-        fbPreference.title = "Facebook"
+        fbPreference.title = getString(R.string.more_facebook)
         fbPreference.setOnPreferenceClickListener {
             onPreferenceClick(it)
             true
@@ -58,7 +58,7 @@ class MoreFragment : PreferenceFragmentCompat() {
 
 //        val sharePreference = Preference(context)
 //        sharePreference.key = "share"
-//        sharePreference.title = "Share with friends"
+//        sharePreference.title = getString(R.string.more_share)
 //        sharePreference.setOnPreferenceClickListener {
 //            onPreferenceClick(it)
 //            true
@@ -68,12 +68,12 @@ class MoreFragment : PreferenceFragmentCompat() {
         // Other Category
         val otherCategory = PreferenceCategory(context)
         otherCategory.key = "other_category"
-        otherCategory.title = "Other"
+        otherCategory.title = getString(R.string.more_other)
         screen.addPreference(otherCategory)
 
         val userGuidePreference = Preference(context)
         userGuidePreference.key = "userguide"
-        userGuidePreference.title = "User Guide"
+        userGuidePreference.title = getString(R.string.more_userguide)
         userGuidePreference.setOnPreferenceClickListener {
             onPreferenceClick(it)
             true
@@ -82,7 +82,7 @@ class MoreFragment : PreferenceFragmentCompat() {
 
         val privacyPreference = Preference(context)
         privacyPreference.key = "privacy"
-        privacyPreference.title = "Privacy Policy"
+        privacyPreference.title = getString(R.string.more_privacy)
         privacyPreference.setOnPreferenceClickListener {
             onPreferenceClick(it)
             true
@@ -91,7 +91,7 @@ class MoreFragment : PreferenceFragmentCompat() {
 
         val termsPreference = Preference(context)
         termsPreference.key = "terms"
-        termsPreference.title = "Terms & Conditions"
+        termsPreference.title = getString(R.string.more_terms)
         termsPreference.setOnPreferenceClickListener {
             onPreferenceClick(it)
             true
@@ -101,7 +101,7 @@ class MoreFragment : PreferenceFragmentCompat() {
         // Version Category
         val versionCategory = PreferenceCategory(context)
         versionCategory.key = "version_category"
-        versionCategory.title = "Version ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
+        versionCategory.title = "${getString(R.string.more_version)} ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
         screen.addPreference(versionCategory)
 
         preferenceScreen = screen

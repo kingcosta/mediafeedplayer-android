@@ -1,10 +1,53 @@
 <resources>
     <string name="app_name">Media Feed Player</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="title_channels">Channels</string>
+
+    <!-- Bottom Navigation Bar -->
+    <string name="bottom_nav_title_channels">Channels</string>
+    <string name="bottom_nav_title_more">More</string>
+
+    <!-- New Channel Activity -->
+    <string name="new_channel_actionbar_title">New Channel Name</string>
     <string name="new_channel_name">New Channel Name</string>
     <string name="new_channel_url">New Channel URL</string>
     <string name="new_channel_button_save">Save</string>
+    <string name="edit_channel_actionbar_title">Edit Channel</string>
+    <string name="edit_channel_channel_name">New Channel Name</string>
+    <string name="edit_channel_channel_url">New Channel URL</string>
+    <string name="save_channel_invalid_url">Please make sure you have entered the right URL.</string>
+    <string name="save_channel_empty_field">Please fill in all information.</string>
+
+    <!-- Listings Fragment -->
+    <string name="listings_actionbar_title">Listings</string>
+    <string name="listings_cannot_connect_header">Opps</string>
+    <string name="listings_cannot_connect">Cannot connect to </string>
+    <string name="listings_go_back">Go back</string>
+    <string name="listings_search_button">Search</string>
+
+    <!-- More Fragment -->
+    <string name="more_actionbar_title">More</string>
+    <string name="more_feedback">Feedback</string>
+    <string name="more_rate">Rate us on Play Store</string>
+    <string name="more_tell">Tell us your feedback</string>
+    <string name="more_follow">Follow Us</string>
+    <string name="more_facebook">Facebook</string>
+    <string name="more_share">Share with friends</string>
+    <string name="more_other">Other</string>
+    <string name="more_userguide">User Guide</string>
+    <string name="more_privacy">Privacy Policy</string>
+    <string name="more_terms">Terms and Conditions</string>
+    <string name="more_version">Version</string>
+
+    <!-- Channel Row View -->
+    <string name="channel_row_name">Channel Name</string>
+    <string name="channel_row_image">Channel Image</string>
+    <string name="channel_row_edit">Edit</string>
+    <string name="channel_row_delete">Delete</string>
+
+    <!-- Listing Row View -->
+    <string name="listing_row_name">Video Title</string>
+    <string name="listing_row_image">Video Thumbnail Image</string>
+    <string name="listing_row_favourite">Video Favourite Button</string>
+
+    <!-- Video Player Activity -->
+    <string name="videoplayer_title">Video Player</string>
 </resources>

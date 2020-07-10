@@ -8,5 +8,5 @@
     <fragment
         android:id="@+id/moreFragment"
         android:name="com.jppappstudio.mediafeedplayer.android.ui.more.MoreFragment"
-        android:label="More" />
+        android:label="@string/more_actionbar_title" />
 </navigation>

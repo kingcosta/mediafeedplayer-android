@@ -30,7 +30,7 @@
         </activity>
 
         <activity android:name=".ui.channels.NewChannelActivity"
-            android:label="New Channel"
+            android:label="@string/new_channel_actionbar_title"
             android:launchMode="singleTop">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
@@ -47,7 +47,7 @@
         </activity>
 
         <activity android:name=".ui.player.PlayerActivity"
-            android:label="Video Player"
+            android:label="@string/videoplayer_title"
             android:launchMode="singleTop"
             android:configChanges="orientation|screenSize|layoutDirection">
             <meta-data android:name="android.support.PARENT_ACTIVITY"

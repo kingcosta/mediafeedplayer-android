@@ -1,5 +1,6 @@
 package com.jppappstudio.mediafeedplayer.android.ui.listings
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.*
 import android.widget.ProgressBar
@@ -7,9 +8,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jppappstudio.mediafeedplayer.android.MainActivity
 import com.jppappstudio.mediafeedplayer.android.R
 import com.jppappstudio.mediafeedplayer.android.models.Listing
 import kotlinx.android.synthetic.main.fragment_listings.view.*
@@ -25,7 +28,6 @@ class ListingsFragment : Fragment() {
 
     var listingTitle: String? = null
     var listingURL: String? = null
-    var listings: List<Listing> = listOf()
     lateinit var progressBar: ProgressBar
     lateinit var searchView: SearchView
 
@@ -37,16 +39,15 @@ class ListingsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewAdapter = ListingsAdapter()
+        viewManager = LinearLayoutManager(activity)
+        viewModel = ViewModelProvider(this).get(ListingsViewModel::class.java)
 
         listingTitle = arguments?.getString("listingTitle")
         listingURL = arguments?.getString("listingURL")
 
-        viewAdapter = ListingsAdapter()
-        viewManager = LinearLayoutManager(activity)
-        viewModel = ViewModelProvider(this).get(ListingsViewModel::class.java)
-        println("Called ViewModelProvider")
-
-        (activity as AppCompatActivity).supportActionBar?.title = listingTitle
+        viewModel.listingTitle = listingTitle ?: "Videos"
+        (activity as MainActivity).supportActionBar?.title = viewModel.listingTitle
 
         val root = inflater.inflate(R.layout.fragment_listings, container, false)
 
@@ -57,12 +58,14 @@ class ListingsFragment : Fragment() {
         }
 
         progressBar = root.progressBar_listing
-
         setHasOptionsMenu(true)
-
         fetchRecord()
 
         return root
+    }
+
+    override fun onStart() {
+        super.onStart()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -141,14 +144,14 @@ class ListingsFragment : Fragment() {
     fun showConnectionFailureDialog() {
         activity?.runOnUiThread {
             val dialogBuilder = AlertDialog.Builder(requireActivity())
-            dialogBuilder.setMessage("Cannot connect to ${listingURL}!")
+            dialogBuilder.setMessage(getString(R.string.listings_cannot_connect) + listingURL)
                 .setCancelable(false)
-                .setPositiveButton("Go Back") { _, _ ->
+                .setPositiveButton(getString(R.string.listings_go_back)) { _, _ ->
                     activity?.onBackPressed()
                 }
 
             val alert = dialogBuilder.create()
-            alert.setTitle("Opps")
+            alert.setTitle(getString(R.string.listings_cannot_connect_header))
             alert.show()
         }
     }

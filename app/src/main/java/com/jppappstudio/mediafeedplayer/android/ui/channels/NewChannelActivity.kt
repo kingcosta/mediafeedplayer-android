@@ -22,12 +22,6 @@ class NewChannelActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (savedInstanceState != null) {
-            println("Saved instance is not null")
-        } else {
-            println("No saved instance")
-        }
-
         setContentView(R.layout.add_new_channel)
         editText_channel_name.requestFocus()
 
@@ -39,12 +33,12 @@ class NewChannelActivity: AppCompatActivity() {
         }
 
         if (mode == "edit") {
-            supportActionBar?.title = "Edit Channel"
+            supportActionBar?.title = getString(R.string.edit_channel_actionbar_title)
 
             editChannelId = bundle?.getInt("id")!!
 
-            textView_channal_name.text = "New Channel Name"
-            textView_channel_url.text = "New Channel URL"
+            textView_channal_name.text = getString(R.string.edit_channel_channel_name)
+            textView_channel_url.text = getString(R.string.edit_channel_channel_url)
 
             editText_channel_name.setText(bundle.getString("name"))
             editText_channel_url.setText(bundle.getString("url"))
@@ -109,12 +103,12 @@ class NewChannelActivity: AppCompatActivity() {
         var channelURL = editText_channel_url.text.toString()
 
         if (!URLUtil.isValidUrl(channelURL)) {
-            message = "Please make sure you fill in correct URL."
+            message = getString(R.string.save_channel_invalid_url)
             readyToSave = false
         }
 
         if (channelName == "" || channelURL == "") {
-            message = "Please fill in all information. "
+            message = getString(R.string.save_channel_invalid_url)
             readyToSave = false
         }
 

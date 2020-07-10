@@ -16,6 +16,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="8dp"
         android:scaleType="fitXY"
+        android:contentDescription="@string/listing_row_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,7 +30,7 @@
         android:layout_marginRight="8dp"
         android:maxLines="2"
         android:overScrollMode="never"
-        android:text="Video Title"
+        android:text="@string/listing_row_name"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView_listing_thumbnail"
         app:layout_constraintEnd_toStartOf="@+id/imageButton_favourite"
@@ -54,6 +55,7 @@
         android:background="@null"
         android:scaleType="fitXY"
         android:tint="#E91E63"
+        android:contentDescription="@string/listing_row_favourite"
         app:layout_constraintBottom_toBottomOf="@+id/imageView_listing_thumbnail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView_listing_thumbnail"
