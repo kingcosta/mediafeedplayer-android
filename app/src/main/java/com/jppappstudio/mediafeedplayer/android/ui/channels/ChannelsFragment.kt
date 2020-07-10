@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jppappstudio.mediafeedplayer.android.R
 import com.jppappstudio.mediafeedplayer.android.models.Channel
-import com.jppappstudio.mediafeedplayer.android.models.ChannelViewModel
 import kotlinx.android.synthetic.main.channel_row.view.*
 import kotlinx.android.synthetic.main.fragment_channels.view.*
 

@@ -7,12 +7,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jppappstudio.mediafeedplayer.android.R
 import com.jppappstudio.mediafeedplayer.android.models.Listing
-import com.jppappstudio.mediafeedplayer.android.ui.channels.ChannelsAdapter
-import kotlinx.android.synthetic.main.fragment_listings.*
 import kotlinx.android.synthetic.main.fragment_listings.view.*
 import okhttp3.*
 import org.xmlpull.v1.XmlPullParserException
@@ -21,6 +20,8 @@ import java.security.MessageDigest
 import java.util.*
 
 class ListingsFragment : Fragment() {
+
+    private lateinit var viewModel: ListingsViewModel
 
     var listingTitle: String? = null
     var listingURL: String? = null
@@ -42,6 +43,8 @@ class ListingsFragment : Fragment() {
 
         viewAdapter = ListingsAdapter()
         viewManager = LinearLayoutManager(activity)
+        viewModel = ViewModelProvider(this).get(ListingsViewModel::class.java)
+        println("Called ViewModelProvider")
 
         (activity as AppCompatActivity).supportActionBar?.title = listingTitle
 
@@ -56,17 +59,13 @@ class ListingsFragment : Fragment() {
         progressBar = root.progressBar_listing
 
         setHasOptionsMenu(true)
-        fetchRecord()
 
-//        if (searchView.isIconified == false) {
-//            searchView.isIconified = true
-//        }
+        fetchRecord()
 
         return root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        println("onCreateOptionsMenu")
         super.onCreateOptionsMenu(menu, inflater)
 
         inflater.inflate(R.menu.listings_actionbar_menu, menu)
@@ -85,60 +84,57 @@ class ListingsFragment : Fragment() {
         })
     }
 
-    fun String.toMD5(): String {
-        val bytes = MessageDigest.getInstance("MD5").digest(this.toByteArray())
-        return bytes.toHex()
-    }
-
-    fun ByteArray.toHex(): String {
-        return joinToString("") { "%02x".format(it) }
-    }
-
     fun fetchRecord() {
         progressBar.visibility = View.VISIBLE
 
-        println("Fetch Record")
-        val uid = UUID.randomUUID().toString().toMD5()
+        if (viewModel.listings.isEmpty()) {
+            val uid = UUID.randomUUID().toString().toMD5()
 
-        if (listingURL != null) {
-            val client = OkHttpClient()
-            val request = Request.Builder()
-                .url(listingURL.toString())
-                .addHeader("UID", uid)
-                .build()
+            if (listingURL != null) {
+                val client = OkHttpClient()
+                val request = Request.Builder()
+                    .url(listingURL.toString())
+                    .addHeader("UID", uid)
+                    .build()
 
-            client.newCall(request).enqueue(object: Callback {
-                override fun onResponse(call: Call, response: Response) {
-                    if (response.body?.contentType().toString().contains("xml")) {
-                        val inputStreamBody = response.body?.byteStream()
+                client.newCall(request).enqueue(object: Callback {
+                    override fun onResponse(call: Call, response: Response) {
+                        if (response.body?.contentType().toString().contains("xml")) {
+                            val inputStreamBody = response.body?.byteStream()
 
-                        if (inputStreamBody != null) {
-                            var parser = ListingsXMLParser()
+                            if (inputStreamBody != null) {
+                                var parser = ListingsXMLParser()
 
-                            try {
-                                listings = parser.parse(inputStreamBody)
+                                try {
+                                    viewModel.listings = parser.parse(inputStreamBody)
 
-                                activity?.runOnUiThread {
-                                    progressBar.visibility = View.INVISIBLE
-                                    viewAdapter.setListings(listings)
+                                    activity?.runOnUiThread {
+                                        progressBar.visibility = View.INVISIBLE
+                                        viewAdapter.setListings(viewModel.listings)
+                                    }
+                                } catch (exception: XmlPullParserException) {
+                                    println("Parsing Exception: ${exception.localizedMessage}")
+                                    showConnectionFailureDialog()
                                 }
-                            } catch (exception: XmlPullParserException) {
-                                println("Parsing Exception: ${exception.localizedMessage}")
+                            } else {
                                 showConnectionFailureDialog()
                             }
                         } else {
                             showConnectionFailureDialog()
                         }
-                    } else {
+                    }
+
+                    override fun onFailure(call: Call, e: IOException) {
+                        println("Fetch Record Network Failed: ${e.localizedMessage}")
                         showConnectionFailureDialog()
                     }
-                }
-
-                override fun onFailure(call: Call, e: IOException) {
-                    println("Fetch Record Network Failed: ${e.localizedMessage}")
-                    showConnectionFailureDialog()
-                }
-            })
+                })
+            }
+        } else {
+            activity?.runOnUiThread {
+                progressBar.visibility = View.INVISIBLE
+                viewAdapter.setListings(viewModel.listings)
+            }
         }
     }
 
@@ -155,5 +151,14 @@ class ListingsFragment : Fragment() {
             alert.setTitle("Opps")
             alert.show()
         }
+    }
+
+    fun String.toMD5(): String {
+        val bytes = MessageDigest.getInstance("MD5").digest(this.toByteArray())
+        return bytes.toHex()
+    }
+
+    fun ByteArray.toHex(): String {
+        return joinToString("") { "%02x".format(it) }
     }
 }

@@ -12,7 +12,6 @@ import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import com.jppappstudio.mediafeedplayer.android.R
 import com.jppappstudio.mediafeedplayer.android.models.Channel
-import com.jppappstudio.mediafeedplayer.android.models.ChannelViewModel
 import kotlinx.android.synthetic.main.add_new_channel.*
 
 class NewChannelActivity: AppCompatActivity() {

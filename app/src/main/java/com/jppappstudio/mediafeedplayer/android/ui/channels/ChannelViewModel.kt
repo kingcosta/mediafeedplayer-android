@@ -1,9 +1,12 @@
-package com.jppappstudio.mediafeedplayer.android.models
+package com.jppappstudio.mediafeedplayer.android.ui.channels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import com.jppappstudio.mediafeedplayer.android.models.AppRoomDatabase
+import com.jppappstudio.mediafeedplayer.android.models.Channel
+import com.jppappstudio.mediafeedplayer.android.models.ChannelDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -13,7 +16,10 @@ class ChannelViewModel(application: Application): AndroidViewModel(application) 
     var allChannels: LiveData<List<Channel>>
 
     init {
-        channelDao = AppRoomDatabase.getDatabase(application, viewModelScope).ChannelDao()
+        channelDao = AppRoomDatabase.getDatabase(
+            application,
+            viewModelScope
+        ).ChannelDao()
         allChannels = channelDao.getAll()
     }
 
