@@ -123,7 +123,7 @@ class MoreFragment : PreferenceFragmentCompat() {
                 }
 
                 val builder = CustomTabsIntent.Builder()
-                builder.setToolbarColor(ContextCompat.getColor(preferenceManager.context, R.color.colorPrimary))
+                builder.setToolbarColor(ContextCompat.getColor(preferenceManager.context, R.color.primaryColor))
                 builder.addDefaultShareMenuItem()
 
                 val customTabsIntent = builder.build()

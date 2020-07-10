@@ -132,7 +132,7 @@ class ListingsViewHolder(val view: View, var listing: Listing? = null): Recycler
 
                     "web/html" -> {
                         val builder = CustomTabsIntent.Builder()
-                        builder.setToolbarColor(ContextCompat.getColor(view.context, R.color.colorPrimary))
+                        builder.setToolbarColor(ContextCompat.getColor(view.context, R.color.primaryColor))
                         builder.addDefaultShareMenuItem()
 
                         val customTabsIntent = builder.build()
