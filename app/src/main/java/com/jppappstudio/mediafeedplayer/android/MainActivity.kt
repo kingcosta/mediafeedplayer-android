@@ -28,9 +28,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        println("Main Activity OnCreate Triggered")
-        println("Another println")
-
         if (savedInstanceState == null) {
             setupBottomNavigationBar()
         }
