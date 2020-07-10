@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_more"
+    app:startDestination="@+id/moreFragment">
+
+    <fragment
+        android:id="@+id/moreFragment"
+        android:name="com.jppappstudio.mediafeedplayer.android.ui.more.MoreFragment"
+        android:label="More" />
+</navigation>

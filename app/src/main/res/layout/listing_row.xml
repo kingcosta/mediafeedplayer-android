@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
+
+    <ImageView
+        android:id="@+id/imageView_listing_thumbnail"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_listing_video_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:maxLines="2"
+        android:overScrollMode="never"
+        android:text="Video Title"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView_listing_thumbnail"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton_favourite"
+        app:layout_constraintStart_toEndOf="@+id/imageView_listing_thumbnail"
+        app:layout_constraintTop_toTopOf="@+id/imageView_listing_thumbnail" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_listing_thumbnail"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton_favourite"
+        android:layout_width="34dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:tint="#E91E63"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView_listing_thumbnail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView_listing_thumbnail"
+        app:srcCompat="@drawable/ic_bookmark_border_black_24dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

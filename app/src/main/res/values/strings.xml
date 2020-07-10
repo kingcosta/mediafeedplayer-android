@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Media Feed Player</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_channels">Channels</string>
+    <string name="new_channel_name">New Channel Name</string>
+    <string name="new_channel_url">New Channel URL</string>
+    <string name="new_channel_button_save">Save</string>
+</resources>

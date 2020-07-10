@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_channels"
+    app:startDestination="@+id/channelsFragment">
+
+    <fragment
+        android:id="@+id/channelsFragment"
+        android:name="com.jppappstudio.mediafeedplayer.android.ui.channels.ChannelsFragment"
+        android:label="Channels"
+        tools:layout="@layout/fragment_channels">
+
+        <action
+            android:id="@+id/navigateToNewChannel"
+            app:destination="@id/newChannelActivity" />
+
+        <action
+            android:id="@+id/openListingsFromChannel"
+            app:destination="@id/listingsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+
+    <activity
+        android:id="@+id/newChannelActivity"
+        android:name="com.jppappstudio.mediafeedplayer.android.ui.channels.NewChannelActivity"
+        android:label="NewChannelActivity"
+        tools:layout="@layout/add_new_channel"/>
+
+    <fragment
+        android:id="@+id/listingsFragment"
+        android:name="com.jppappstudio.mediafeedplayer.android.ui.listings.ListingsFragment"
+        android:label="fragment_listings"
+        tools:layout="@layout/fragment_listings">
+
+        <action
+            android:id="@+id/openListingsFromListing"
+            app:destination="@id/listingsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <argument
+            android:name="listingTitle"
+            app:argType="string"
+            android:defaultValue="Favourite" />
+        <argument
+            android:name="listingURL"
+            app:argType="string"
+            app:nullable="true" />
+
+        <action
+            android:id="@+id/openVideoFromListing"
+            app:destination="@id/playerActivity" />
+    </fragment>
+
+    <activity
+        android:id="@+id/playerActivity"
+        android:name="com.jppappstudio.mediafeedplayer.android.ui.player.PlayerActivity"
+        android:label="PlayerActivity"
+        tools:layout="@layout/activity_player"/>
+</navigation>

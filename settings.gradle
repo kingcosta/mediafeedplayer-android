@@ -1,0 +1,2 @@
+rootProject.name='mediafeedplayer_android'
+include ':app'

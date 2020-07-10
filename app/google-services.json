@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "162019250036",
+    "firebase_url": "https://media-feed-player.firebaseio.com",
+    "project_id": "media-feed-player",
+    "storage_bucket": "media-feed-player.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:162019250036:android:ae329de892848f199a2621",
+        "android_client_info": {
+          "package_name": "com.jppappstudio.mediafeedplayer.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "162019250036-5n93laed3mhpjej7d8fpteeh068neni8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTRJiOazPrfmF6DPJtEXZfyNebxkPYVQs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "162019250036-5n93laed3mhpjej7d8fpteeh068neni8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "162019250036-lgbrvnjpumttm3foet9rvp9g24119i5n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.jppappstudio.mediafeedplayertwo",
+                "app_store_id": "1516148350"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
