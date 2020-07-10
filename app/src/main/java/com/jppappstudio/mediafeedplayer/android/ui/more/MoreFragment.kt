@@ -7,12 +7,19 @@ import androidx.core.content.ContextCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import com.jppappstudio.mediafeedplayer.android.BuildConfig
 import com.jppappstudio.mediafeedplayer.android.R
 
 class MoreFragment : PreferenceFragmentCompat() {
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        firebaseAnalytics = Firebase.analytics
 
         val context = preferenceManager.context
         val screen = preferenceManager.createPreferenceScreen(context)
@@ -135,6 +142,10 @@ class MoreFragment : PreferenceFragmentCompat() {
             }
 
             else -> {}
+        }
+
+        firebaseAnalytics.logEvent("open_more_link") {
+            param("url", preference.key)
         }
     }
 }

@@ -13,6 +13,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import com.jppappstudio.mediafeedplayer.android.R
 import com.jppappstudio.mediafeedplayer.android.models.Channel
 import com.jppappstudio.mediafeedplayer.android.models.Listing
@@ -21,7 +25,6 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.listing_row.view.*
 
 class ListingsAdapter: RecyclerView.Adapter<ListingsViewHolder>(), Filterable {
-
     private var listings = emptyList<Listing>()
     private var listingsFiltered = mutableListOf<Listing>()
     private var listingsAll = emptyList<Listing>()
@@ -99,10 +102,13 @@ class ListingsAdapter: RecyclerView.Adapter<ListingsViewHolder>(), Filterable {
 }
 
 class ListingsViewHolder(val view: View, var listing: Listing? = null): RecyclerView.ViewHolder(view) {
+
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
     init {
+        firebaseAnalytics = Firebase.analytics
+
         view.setOnClickListener {
-
-
 
             listing?.let {
 
@@ -128,6 +134,10 @@ class ListingsViewHolder(val view: View, var listing: Listing? = null): Recycler
                         val intent = Intent(view.context, PlayerActivity::class.java)
                         intent.putExtra("videoURL", it.url)
                         view.context.startActivity(intent)
+
+                        firebaseAnalytics.logEvent("play_video") {
+                            param("source", "listings")
+                        }
                     }
 
                     "web/html" -> {

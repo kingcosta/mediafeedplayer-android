@@ -8,6 +8,9 @@ import android.webkit.URLUtil
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import com.jppappstudio.mediafeedplayer.android.R
@@ -16,6 +19,7 @@ import kotlinx.android.synthetic.main.add_new_channel.*
 
 class NewChannelActivity: AppCompatActivity() {
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
     var mode = "new"
     var editChannelId: Int = 0
 
@@ -24,6 +28,7 @@ class NewChannelActivity: AppCompatActivity() {
 
         setContentView(R.layout.add_new_channel)
         editText_channel_name.requestFocus()
+        firebaseAnalytics = Firebase.analytics
 
         val bundle: Bundle? = intent.extras
         var newMode: String? = bundle?.getString("mode")
@@ -42,6 +47,10 @@ class NewChannelActivity: AppCompatActivity() {
 
             editText_channel_name.setText(bundle.getString("name"))
             editText_channel_url.setText(bundle.getString("url"))
+        }
+
+        firebaseAnalytics.logEvent("new_channel_form_open") {
+
         }
     }
 
@@ -120,11 +129,21 @@ class NewChannelActivity: AppCompatActivity() {
                 val channel = Channel(0, channelName, channelURL)
                 channelViewModel.insert(channel)
                 finish()
+
+                firebaseAnalytics.logEvent("added_new_channel") {
+                    param("channel_name", channelName)
+                    param("channel_url", channelURL)
+                }
             }
 
             if (mode == "edit") {
                 channelViewModel.updateById(editChannelId, channelName, channelURL)
                 finish()
+
+                firebaseAnalytics.logEvent("editted_channel") {
+                    param("channel_name", channelName)
+                    param("channel_url", channelURL)
+                }
             }
 
         } else {

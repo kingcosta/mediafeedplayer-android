@@ -12,6 +12,10 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import com.jppappstudio.mediafeedplayer.android.MainActivity
 import com.jppappstudio.mediafeedplayer.android.R
 import com.jppappstudio.mediafeedplayer.android.models.Listing
@@ -24,6 +28,7 @@ import java.util.*
 
 class ListingsFragment : Fragment() {
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var viewModel: ListingsViewModel
 
     var listingTitle: String? = null
@@ -39,6 +44,8 @@ class ListingsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        firebaseAnalytics = Firebase.analytics
+
         viewAdapter = ListingsAdapter()
         viewManager = LinearLayoutManager(activity)
         viewModel = ViewModelProvider(this).get(ListingsViewModel::class.java)
@@ -153,6 +160,10 @@ class ListingsFragment : Fragment() {
             val alert = dialogBuilder.create()
             alert.setTitle(getString(R.string.listings_cannot_connect_header))
             alert.show()
+
+            firebaseAnalytics.logEvent("cannot_connect_to_feed") {
+                param("feed_url", listingURL!!)
+            }
         }
     }
 

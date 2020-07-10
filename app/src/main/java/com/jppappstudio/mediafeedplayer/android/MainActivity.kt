@@ -13,11 +13,15 @@ import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.gms.ads.*
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_channels.*
 import com.jppappstudio.mediafeedplayer.android.extensions.setupWithNavController
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
     private var showAds = false
     private lateinit var adView: AdView
     private lateinit var navAdViewContainer: FrameLayout
@@ -31,6 +35,8 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             setupBottomNavigationBar()
         }
+
+        firebaseAnalytics = Firebase.analytics
 
         // Ugly Hack. More context at
         // https://stackoverflow.com/questions/19545889/app-restarts-rather-than-resumes

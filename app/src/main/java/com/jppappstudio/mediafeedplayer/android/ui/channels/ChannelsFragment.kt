@@ -14,6 +14,10 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import com.jppappstudio.mediafeedplayer.android.R
 import com.jppappstudio.mediafeedplayer.android.models.Channel
 import kotlinx.android.synthetic.main.channel_row.view.*
@@ -63,8 +67,13 @@ class ChannelsFragment : Fragment() {
 
 class ChannelsAdapter: RecyclerView.Adapter<ChannelsViewHolder>() {
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
     private var channels = emptyList<Channel>()
     private lateinit var channelViewModel: ChannelViewModel
+
+    init {
+        firebaseAnalytics = Firebase.analytics
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChannelsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -101,6 +110,12 @@ class ChannelsAdapter: RecyclerView.Adapter<ChannelsViewHolder>() {
 
                     R.id.action_delete -> {
                         channelViewModel.delete(channel)
+
+                        firebaseAnalytics.logEvent("deleted_channel") {
+                            param("channel_name", channel.name)
+                            param("channel_url", channel.url)
+                        }
+
                         true
                     }
 
