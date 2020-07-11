@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Media Feed Player</string>
+    <string name="listings_please_check">。请仔细检查指定的网址/链接</string>
+    <string name="listings_cannot_connect">无法连接</string>
+    <string name="bottom_nav_title_channels">频道</string>
+    <string name="bottom_nav_title_more">更多</string>
+    <string name="new_channel_actionbar_title">新频道</string>
+    <string name="new_channel_name_hint">频道更名</string>
+    <string name="new_channel_url_hint">添加 RSS 网址/链接</string>
+    <string name="new_channel_url">RSS 网址/ 链接</string>
+    <string name="new_channel_name">频道名称</string>
+    <string name="new_channel_button_save">储存</string>
+    <string name="edit_channel_actionbar_title">修改频道</string>
+    <string name="edit_channel_channel_name">新频道名称</string>
+    <string name="edit_channel_channel_url">新RSS网址/ 链接</string>
+    <string name="save_channel_invalid_url">请确保您输入正确的网址/链接。</string>
+    <string name="save_channel_empty_field">无法前进因为其中一项目为空白。 所有项目均为必填。</string>
+    <string name="listings_actionbar_title">影片</string>
+    <string name="listings_cannot_connect_header">抱歉</string>
+    <string name="listings_go_back">返回</string>
+    <string name="listings_search_button">搜索</string>
+    <string name="more_actionbar_title">更多</string>
+    <string name="more_feedback">反馈</string>
+    <string name="more_rate">评价我们</string>
+    <string name="more_tell">联系我们</string>
+    <string name="more_follow">关注我们</string>
+    <string name="more_facebook">Facebook</string>
+    <string name="more_share">与朋友分享</string>
+    <string name="more_other">其他</string>
+    <string name="more_userguide">用户指南</string>
+    <string name="more_privacy">隐私权政策</string>
+    <string name="more_terms">服务协议</string>
+    <string name="more_version">版本</string>
+    <string name="channels_backgroundview_text_headline">空白</string>
+    <string name="channels_backgroundview_text_subheadline">点击+添加更多频道</string>
+    <string name="channel_row_name">频道名称</string>
+    <string name="channel_row_image">频道图片</string>
+    <string name="channel_row_edit">修改</string>
+    <string name="channel_row_delete">删除</string>
+    <string name="listing_row_name">影片标题</string>
+    <string name="listing_row_image">影片图片</string>
+    <string name="listing_row_favourite">影片收藏</string>
+    <string name="videoplayer_title">播放器</string>
+</resources>
