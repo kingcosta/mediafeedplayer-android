@@ -37,6 +37,9 @@
     <string name="more_terms">Terms and Conditions</string>
     <string name="more_version">Version</string>
 
+    <!-- Channel Fragment -->
+    <string name="channels_backgroundview_text">Tap + to add new channel</string>
+
     <!-- Channel Row View -->
     <string name="channel_row_name">Channel Name</string>
     <string name="channel_row_image">Channel Image</string>

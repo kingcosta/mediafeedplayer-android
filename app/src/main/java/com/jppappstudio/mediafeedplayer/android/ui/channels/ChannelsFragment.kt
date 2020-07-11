@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -21,6 +23,7 @@ import com.google.firebase.ktx.Firebase
 import com.jppappstudio.mediafeedplayer.android.R
 import com.jppappstudio.mediafeedplayer.android.models.Channel
 import kotlinx.android.synthetic.main.channel_row.view.*
+import kotlinx.android.synthetic.main.fragment_channels.*
 import kotlinx.android.synthetic.main.fragment_channels.view.*
 
 class ChannelsFragment : Fragment() {
@@ -28,6 +31,8 @@ class ChannelsFragment : Fragment() {
     private lateinit var viewAdapter: ChannelsAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var channelViewModel: ChannelViewModel
+    private lateinit var backgroundImageView: ImageView
+    private lateinit var backgroundTextView: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,9 +49,19 @@ class ChannelsFragment : Fragment() {
             layoutManager = viewManager
         }
 
+        backgroundImageView = root.findViewById(R.id.view_channels_background_imageview)
+        backgroundTextView = root.findViewById(R.id.view_channels_background_textview)
+        showBackgroundView()
+
         channelViewModel = ViewModelProvider(this).get(ChannelViewModel::class.java)
         channelViewModel.allChannels.observe(viewLifecycleOwner, Observer { channels ->
             channels.let {
+                if (!it.isEmpty()) {
+                    hideBackgroundView()
+                } else {
+                    showBackgroundView()
+                }
+
                 viewAdapter.setChannels(it)
             }
         })
@@ -62,6 +77,16 @@ class ChannelsFragment : Fragment() {
             val intent = Intent(context, NewChannelActivity::class.java)
             context?.startActivity(intent)
         }
+    }
+
+    fun hideBackgroundView() {
+        backgroundImageView.visibility = View.GONE
+        backgroundTextView.visibility = View.GONE
+    }
+
+    fun showBackgroundView() {
+        backgroundImageView.visibility = View.VISIBLE
+        backgroundTextView.visibility = View.VISIBLE
     }
 }
 
