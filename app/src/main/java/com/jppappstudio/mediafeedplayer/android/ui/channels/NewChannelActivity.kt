@@ -49,9 +49,8 @@ class NewChannelActivity: AppCompatActivity() {
             editText_channel_url.setText(bundle.getString("url"))
         }
 
-        firebaseAnalytics.logEvent("new_channel_form_open") {
-
-        }
+        checkForDynamicLinks()
+        firebaseAnalytics.logEvent("new_channel_form_open") {}
     }
 
     override fun onStart() {
@@ -73,7 +72,7 @@ class NewChannelActivity: AppCompatActivity() {
                     val deepLinkAction = deepLink.getQueryParameter("action")
 
                     if (deepLinkAction != "new_channel") {
-                        println("Malicious deep link")
+                        // println("Malicious deep link")
                     } else {
                         val channelName = deepLink.getQueryParameter("name")
                         val channelURL = deepLink.getQueryParameter("url")
@@ -85,7 +84,7 @@ class NewChannelActivity: AppCompatActivity() {
             }
 
             .addOnFailureListener(this) { e ->
-                println("getDynamicLink:OnFailure – ${e.localizedMessage}")
+                 // println("getDynamicLink:OnFailure – ${e.localizedMessage}")
             }
     }
 

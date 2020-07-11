@@ -123,7 +123,7 @@ class ListingsFragment : Fragment() {
                                         viewAdapter.setListings(viewModel.listings)
                                     }
                                 } catch (exception: XmlPullParserException) {
-                                    println("Parsing Exception: ${exception.localizedMessage}")
+                                    // println("Parsing Exception: ${exception.localizedMessage}")
                                     showConnectionFailureDialog()
                                 }
                             } else {
@@ -135,7 +135,7 @@ class ListingsFragment : Fragment() {
                     }
 
                     override fun onFailure(call: Call, e: IOException) {
-                        println("Fetch Record Network Failed: ${e.localizedMessage}")
+                        // println("Fetch Record Network Failed: ${e.localizedMessage}")
                         showConnectionFailureDialog()
                     }
                 })
