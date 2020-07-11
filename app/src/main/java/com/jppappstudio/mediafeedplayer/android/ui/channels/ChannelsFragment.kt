@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.os.bundleOf
@@ -31,8 +32,7 @@ class ChannelsFragment : Fragment() {
     private lateinit var viewAdapter: ChannelsAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var channelViewModel: ChannelViewModel
-    private lateinit var backgroundImageView: ImageView
-    private lateinit var backgroundTextView: TextView
+    private lateinit var backgroundView: LinearLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,8 +49,7 @@ class ChannelsFragment : Fragment() {
             layoutManager = viewManager
         }
 
-        backgroundImageView = root.findViewById(R.id.view_channels_background_imageview)
-        backgroundTextView = root.findViewById(R.id.view_channels_background_textview)
+        backgroundView = root.findViewById(R.id.view_channels_background)
         showBackgroundView()
 
         channelViewModel = ViewModelProvider(this).get(ChannelViewModel::class.java)
@@ -80,13 +79,11 @@ class ChannelsFragment : Fragment() {
     }
 
     fun hideBackgroundView() {
-        backgroundImageView.visibility = View.GONE
-        backgroundTextView.visibility = View.GONE
+        backgroundView.visibility = View.GONE
     }
 
     fun showBackgroundView() {
-        backgroundImageView.visibility = View.VISIBLE
-        backgroundTextView.visibility = View.VISIBLE
+        backgroundView.visibility = View.VISIBLE
     }
 }
 

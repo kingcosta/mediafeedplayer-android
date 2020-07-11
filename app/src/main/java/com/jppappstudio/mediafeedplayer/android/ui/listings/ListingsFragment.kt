@@ -151,7 +151,7 @@ class ListingsFragment : Fragment() {
     fun showConnectionFailureDialog() {
         activity?.runOnUiThread {
             val dialogBuilder = AlertDialog.Builder(requireActivity())
-            dialogBuilder.setMessage(getString(R.string.listings_cannot_connect) + listingURL)
+            dialogBuilder.setMessage(getString(R.string.listings_cannot_connect) + listingURL + getString(R.string.listings_please_check))
                 .setCancelable(false)
                 .setPositiveButton(getString(R.string.listings_go_back)) { _, _ ->
                     activity?.onBackPressed()

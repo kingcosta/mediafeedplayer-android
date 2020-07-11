@@ -6,21 +6,24 @@
     <string name="bottom_nav_title_more">More</string>
 
     <!-- New Channel Activity -->
-    <string name="new_channel_actionbar_title">New Channel Name</string>
-    <string name="new_channel_name">New Channel Name</string>
-    <string name="new_channel_url">New Channel URL</string>
+    <string name="new_channel_actionbar_title">New Channel</string>
+    <string name="new_channel_name">Channel Name</string>
+    <string name="new_channel_url">Channel URL</string>
+    <string name="new_channel_name_hint">Give channel a name</string>
+    <string name="new_channel_url_hint">Fill in channel RSS URL</string>
     <string name="new_channel_button_save">Save</string>
     <string name="edit_channel_actionbar_title">Edit Channel</string>
     <string name="edit_channel_channel_name">New Channel Name</string>
     <string name="edit_channel_channel_url">New Channel URL</string>
-    <string name="save_channel_invalid_url">Please make sure you have entered the right URL.</string>
-    <string name="save_channel_empty_field">Please fill in all information.</string>
+    <string name="save_channel_invalid_url">Please make sure you have enter the right URL.</string>
+    <string name="save_channel_empty_field">We can\'t proceed because one of the fields is empty. Please note that all fields are required.</string>
 
     <!-- Listings Fragment -->
-    <string name="listings_actionbar_title">Listings</string>
+    <string name="listings_actionbar_title">List</string>
     <string name="listings_cannot_connect_header">Opps</string>
     <string name="listings_cannot_connect">Cannot connect to </string>
-    <string name="listings_go_back">Go back</string>
+    <string name="listings_please_check">. Please double check the URL specified.</string>
+    <string name="listings_go_back">Return</string>
     <string name="listings_search_button">Search</string>
 
     <!-- More Fragment -->
@@ -38,7 +41,8 @@
     <string name="more_version">Version</string>
 
     <!-- Channel Fragment -->
-    <string name="channels_backgroundview_text">Tap + to add new channel</string>
+    <string name="channels_backgroundview_text_headline">Nothing Here</string>
+    <string name="channels_backgroundview_text_subheadline">Tap + to add some channels</string>
 
     <!-- Channel Row View -->
     <string name="channel_row_name">Channel Name</string>
