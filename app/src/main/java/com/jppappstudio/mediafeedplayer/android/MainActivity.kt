@@ -20,6 +20,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_channels.*
 import com.jppappstudio.mediafeedplayer.android.extensions.setupWithNavController
 import com.jppappstudio.mediafeedplayer.android.services.InterstitialManager
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -48,6 +49,10 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
+        // Nexus: 32458C77D0FBD29C560661E15833A002
+        val testDeviceIds = listOf("32458C77D0FBD29C560661E15833A002")
+        val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
+        MobileAds.setRequestConfiguration(configuration)
         MobileAds.initialize(this) {
             if (showAds) {
                 // navAdViewContainer = findViewById(R.id.nav_ad_view_container)
