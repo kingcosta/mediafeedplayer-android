@@ -26,7 +26,7 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
-    private var showAds = true
+    private var showAds = BuildConfig.ALLOW_NAVIGATION_BANNER
     private lateinit var adView: AdView
     private lateinit var navAdViewContainer: FrameLayout
 
@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadBanner() {
         adView = AdView(this)
         adView.adSize = getAdaptiveBannerSize(navAdViewContainer.width.toFloat())
-        adView.adUnitId = BuildConfig.CHANNELS_ADUNIT_ID
+        adView.adUnitId = BuildConfig.NAVIGATION_ADUNIT_ID
 
         adView.adListener = object: AdListener() {
             override fun onAdLoaded() {

@@ -1,14 +1,20 @@
 package com.jppappstudio.mediafeedplayer.android.ui.channels
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,16 +22,23 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.ktx.Firebase
+import com.jppappstudio.mediafeedplayer.android.BuildConfig
 import com.jppappstudio.mediafeedplayer.android.R
 import com.jppappstudio.mediafeedplayer.android.models.Channel
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.channel_row.view.*
 import kotlinx.android.synthetic.main.fragment_channels.*
 import kotlinx.android.synthetic.main.fragment_channels.view.*
+import kotlinx.coroutines.flow.channelFlow
 
 class ChannelsFragment : Fragment() {
 
@@ -33,6 +46,10 @@ class ChannelsFragment : Fragment() {
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var channelViewModel: ChannelViewModel
     private lateinit var backgroundView: LinearLayout
+
+    private var showBannerAds = BuildConfig.ALLOW_CHANNELS_BANNER
+    private lateinit var adView: AdView
+    private lateinit var channelsAdViewContainer: FrameLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,7 +72,7 @@ class ChannelsFragment : Fragment() {
         channelViewModel = ViewModelProvider(this).get(ChannelViewModel::class.java)
         channelViewModel.allChannels.observe(viewLifecycleOwner, Observer { channels ->
             channels.let {
-                if (!it.isEmpty()) {
+                if (it.isNotEmpty()) {
                     hideBackgroundView()
                 } else {
                     showBackgroundView()
@@ -68,22 +85,74 @@ class ChannelsFragment : Fragment() {
         viewAdapter.setChannelViewModel(channelViewModel)
 
         setupFab(root.floatingActionButton_new_channel)
+
+        if (showBannerAds) {
+            channelsAdViewContainer = root.findViewById(R.id.channels_ad_view_container)
+            loadBanner()
+        }
+
         return root
     }
 
-    fun setupFab(fab: FloatingActionButton) {
+    private fun setupFab(fab: FloatingActionButton) {
         fab.setOnClickListener {
             val intent = Intent(context, NewChannelActivity::class.java)
             context?.startActivity(intent)
         }
     }
 
-    fun hideBackgroundView() {
+    private fun hideBackgroundView() {
         backgroundView.visibility = View.GONE
     }
 
-    fun showBackgroundView() {
+    private fun showBackgroundView() {
         backgroundView.visibility = View.VISIBLE
+    }
+
+    private fun loadBanner() {
+        adView = AdView(context)
+        adView.adSize = getAdaptiveBannerSize(requireContext(), channelsAdViewContainer.width.toFloat())
+        adView.adUnitId = BuildConfig.CHANNELS_ADUNIT_ID
+        adView.adListener = object: AdListener() {
+            override fun onAdLoaded() {
+                super.onAdLoaded()
+                channelsAdViewContainer.addView(adView)
+
+                val animation = AnimationUtils.loadAnimation(context, R.anim.banner_slideup)
+                animation.setAnimationListener(object : Animation.AnimationListener {
+                    override fun onAnimationEnd(p0: Animation?) {
+                        val constraintLayout = channels_constraintlayout
+                        val constraintSet = ConstraintSet()
+                        constraintSet.clone(constraintLayout)
+                        constraintSet.connect(R.id.recyclerview_channels_list, ConstraintSet.BOTTOM, R.id.channels_ad_view_container, ConstraintSet.TOP, 0)
+                        constraintSet.applyTo(constraintLayout)
+                    }
+                    override fun onAnimationRepeat(p0: Animation?) {}
+                    override fun onAnimationStart(p0: Animation?) {}
+                })
+                channelsAdViewContainer.startAnimation(animation)
+            }
+        }
+
+        adView.loadAd(AdRequest.Builder().build())
+    }
+
+    private fun getAdaptiveBannerSize(context: Context, width: Float): AdSize {
+        val display = activity?.windowManager?.defaultDisplay
+        val outMetrics = DisplayMetrics()
+        display?.getMetrics(outMetrics)
+
+        val density = outMetrics.density
+
+        var adWidthPixels = width
+        if (adWidthPixels == 0f) {
+            adWidthPixels = outMetrics.widthPixels.toFloat()
+        }
+
+        val adWidth = (adWidthPixels / density).toInt()
+        val adSize =  AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, adWidth)
+
+        return adSize
     }
 }
 
@@ -113,7 +182,7 @@ class ChannelsAdapter: RecyclerView.Adapter<ChannelsViewHolder>() {
         holder.channel = channel
         holder.view.textView_channel_name.text = channel.name
         holder.view.imageButton_more.setOnClickListener {
-            var popupMenu = PopupMenu(it.context, holder.view.imageButton_more)
+            val popupMenu = PopupMenu(it.context, holder.view.imageButton_more)
             popupMenu.inflate(R.menu.channel_row_menu)
             popupMenu.setOnMenuItemClickListener {
 
