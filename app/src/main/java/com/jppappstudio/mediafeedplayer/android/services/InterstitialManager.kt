@@ -1,43 +1,57 @@
 package com.jppappstudio.mediafeedplayer.android.services
 
 import android.content.Context
+import android.os.Build
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
+import com.jppappstudio.mediafeedplayer.android.BuildConfig
 
-object InterstitialManager {
+class InterstitialManager private constructor(context: Context){
 
-    lateinit var mInterstitialAd: InterstitialAd
+    companion object : SingletonHolder<InterstitialManager, Context>(::InterstitialManager)
 
-    fun createInterstitial(context: Context) {
-        // println("Create interstitial called")
+    var mInsterstitialAd: InterstitialAd
+    private lateinit var onAdClosedHandler: () -> Unit
 
-        if (!this::mInterstitialAd.isInitialized) {
-            // println("Interstitial is not initialized")
+    init {
+        mInsterstitialAd = InterstitialAd(context)
+        // test ad
+        mInsterstitialAd.adUnitId = BuildConfig.INTERSTITIAL_ADUNIT_ID
 
-            mInterstitialAd = InterstitialAd(context)
-            mInterstitialAd.adUnitId = "ca-app-pub-3940256099942544/1033173712"
-            mInterstitialAd.adListener = object: AdListener() {
-                override fun onAdLoaded() {
-                    // println("Interstitial Ads Loaded")
-                }
-
-                override fun onAdClosed() {
-                    // println("Interstitial Ads Closed")
-
-                    mInterstitialAd.loadAd(AdRequest.Builder().build())
-                }
+        mInsterstitialAd.adListener = object: AdListener() {
+            override fun onAdLoaded() {
+                super.onAdLoaded()
+                println("MainActivity: onAdLoaded")
             }
-            mInterstitialAd.loadAd(AdRequest.Builder().build())
 
-        } else {
-            // println("Interstitial is initialized")
+            override fun onAdFailedToLoad(p0: Int) {
+                super.onAdFailedToLoad(p0)
+                println("MainActivity: onAdFailedToLoad")
+            }
 
-            if (!mInterstitialAd.isLoaded) {
-                // println("Interstitial is initialized but not loaded")
-
-                mInterstitialAd.loadAd(AdRequest.Builder().build())
+            override fun onAdClosed() {
+                super.onAdClosed()
+                onAdClosedHandler()
             }
         }
+    }
+
+    fun loadNewInterstitialAd(forceReload: Boolean = false) {
+
+        if (!forceReload) {
+            println("MainActivity: No Forced Reload")
+            if (!mInsterstitialAd.isLoaded) {
+                mInsterstitialAd.loadAd(AdRequest.Builder().build())
+            }
+        } else {
+            println("MainActivity: Forced Reload")
+            mInsterstitialAd.loadAd(AdRequest.Builder().build())
+        }
+
+    }
+
+    fun setOnClosedHandler(handler: () -> Unit) {
+        onAdClosedHandler = handler
     }
 }

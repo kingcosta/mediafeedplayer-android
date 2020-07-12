@@ -20,6 +20,7 @@ import com.google.firebase.ktx.Firebase
 import com.jppappstudio.mediafeedplayer.android.R
 import com.jppappstudio.mediafeedplayer.android.models.Channel
 import com.jppappstudio.mediafeedplayer.android.models.Listing
+import com.jppappstudio.mediafeedplayer.android.services.InterstitialManager
 import com.jppappstudio.mediafeedplayer.android.ui.player.PlayerActivity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.listing_row.view.*
@@ -103,11 +104,9 @@ class ListingsAdapter: RecyclerView.Adapter<ListingsViewHolder>(), Filterable {
 
 class ListingsViewHolder(val view: View, var listing: Listing? = null): RecyclerView.ViewHolder(view) {
 
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
+    private var firebaseAnalytics: FirebaseAnalytics = Firebase.analytics
 
     init {
-        firebaseAnalytics = Firebase.analytics
-
         view.setOnClickListener {
 
             listing?.let {
@@ -124,19 +123,21 @@ class ListingsViewHolder(val view: View, var listing: Listing? = null): Recycler
 
                     "video/mp4" -> {
 
-//                        if (InterstitialManager.mInterstitialAd.isLoaded()) {
-//                            println("Interstitial Ads is loaded")
-//                            InterstitialManager.mInterstitialAd.show()
-//                        } else {
-//                            println("Interstitial Ads is not ready")
-//                        }
+                        var playVideo = {
+                            val intent = Intent(view.context, PlayerActivity::class.java)
+                            intent.putExtra("videoURL", it.url)
+                            view.context.startActivity(intent)
 
-                        val intent = Intent(view.context, PlayerActivity::class.java)
-                        intent.putExtra("videoURL", it.url)
-                        view.context.startActivity(intent)
+                            firebaseAnalytics.logEvent("play_video") {
+                                param("source", "listings")
+                            }
+                        }
 
-                        firebaseAnalytics.logEvent("play_video") {
-                            param("source", "listings")
+                        if (InterstitialManager.getInstance(view.context).mInsterstitialAd.isLoaded) {
+                            InterstitialManager.getInstance(view.context).setOnClosedHandler(playVideo)
+                            InterstitialManager.getInstance(view.context).mInsterstitialAd.show()
+                        } else {
+                            playVideo()
                         }
                     }
 

@@ -1,6 +1,7 @@
 package com.jppappstudio.mediafeedplayer.android
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.animation.Animation
@@ -18,11 +19,12 @@ import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_channels.*
 import com.jppappstudio.mediafeedplayer.android.extensions.setupWithNavController
+import com.jppappstudio.mediafeedplayer.android.services.InterstitialManager
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
-    private var showAds = false
+    private var showAds = true
     private lateinit var adView: AdView
     private lateinit var navAdViewContainer: FrameLayout
 
@@ -46,12 +48,17 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        if (showAds) {
-            MobileAds.initialize(this) {
-                navAdViewContainer = findViewById(R.id.nav_ad_view_container)
-                loadBanner()
+        MobileAds.initialize(this) {
+            if (showAds) {
+                // navAdViewContainer = findViewById(R.id.nav_ad_view_container)
+                // loadBanner()
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        InterstitialManager.getInstance(this).loadNewInterstitialAd()
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {

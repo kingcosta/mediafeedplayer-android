@@ -21,7 +21,7 @@
     <!-- Listings Fragment -->
     <string name="listings_actionbar_title">List</string>
     <string name="listings_cannot_connect_header">Opps</string>
-    <string name="listings_cannot_connect">Cannot connect to </string>
+    <string name="listings_cannot_connect">Cannot connect to \</string>
     <string name="listings_please_check">. Please double check the URL specified.</string>
     <string name="listings_go_back">Return</string>
     <string name="listings_search_button">Search</string>

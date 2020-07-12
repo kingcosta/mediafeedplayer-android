@@ -20,6 +20,7 @@ import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.jppappstudio.mediafeedplayer.android.R
+import com.jppappstudio.mediafeedplayer.android.services.InterstitialManager
 
 class PlayerActivity: AppCompatActivity(), Player.EventListener {
 
@@ -118,7 +119,7 @@ class PlayerActivity: AppCompatActivity(), Player.EventListener {
         })
 
         btBack.setOnClickListener(View.OnClickListener {
-            // this.onBackPressed()
+            InterstitialManager.getInstance(this).loadNewInterstitialAd()
             finish()
         })
     }

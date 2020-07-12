@@ -15,8 +15,8 @@ android {
         applicationId "com.jppappstudio.mediafeedplayer.android"
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 3
-        versionName "1.0"
+        versionCode 4
+        versionName "1.0.1"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled = true
 
@@ -25,13 +25,20 @@ android {
 
     buildTypes {
         debug {
+            manifestPlaceholders = [ admobApplicationId: "ca-app-pub-3940256099942544~3347511713" ]
+            buildConfigField("String", 'INTERSTITIAL_ADUNIT_ID', "\"ca-app-pub-3940256099942544/1033173712\"")
+
             FirebasePerformance {
                 instrumentationEnabled false
             }
         }
 
         release {
-            minifyEnabled false
+            manifestPlaceholders = [ admobApplicationId: "ca-app-pub-8588299029427703~1710620698" ]
+            buildConfigField("String", 'INTERSTITIAL_ADUNIT_ID', "\"ca-app-pub-8588299029427703/8686274342\"")
+
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -81,6 +88,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-dynamic-links-ktx:19.1.0'
     implementation 'com.google.firebase:firebase-perf:19.0.7'
     implementation 'com.google.android.gms:play-services-ads:19.2.0'
+    implementation 'com.google.ads.mediation:facebook:5.10.0.0'
 
     // Android Room
     def room_version = "2.2.5"
