@@ -21,7 +21,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:background="#2196F3"
         app:layout_constraintBottom_toTopOf="@+id/nav_view" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

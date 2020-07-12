@@ -27,6 +27,10 @@ android {
         debug {
             manifestPlaceholders = [ admobApplicationId: "ca-app-pub-3940256099942544~3347511713" ]
             buildConfigField("String", 'INTERSTITIAL_ADUNIT_ID', "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", 'CHANNELS_ADUNIT_ID', "\"ca-app-pub-3940256099942544/6300978111\"")
+//            manifestPlaceholders = [ admobApplicationId: "ca-app-pub-8588299029427703~1710620698" ]
+//            buildConfigField("String", 'INTERSTITIAL_ADUNIT_ID', "\"ca-app-pub-8588299029427703/8686274342\"")
+//            buildConfigField("String", 'CHANNELS_ADUNIT_ID', "\"ca-app-pub-8588299029427703/1536210936\"")
 
             FirebasePerformance {
                 instrumentationEnabled false
@@ -36,6 +40,7 @@ android {
         release {
             manifestPlaceholders = [ admobApplicationId: "ca-app-pub-8588299029427703~1710620698" ]
             buildConfigField("String", 'INTERSTITIAL_ADUNIT_ID', "\"ca-app-pub-8588299029427703/8686274342\"")
+            buildConfigField("String", 'CHANNELS_ADUNIT_ID', "\"ca-app-pub-8588299029427703/1536210936\"")
 
             minifyEnabled true
             shrinkResources true

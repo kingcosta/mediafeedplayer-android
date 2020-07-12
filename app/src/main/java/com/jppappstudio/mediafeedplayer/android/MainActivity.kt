@@ -20,6 +20,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_channels.*
 import com.jppappstudio.mediafeedplayer.android.extensions.setupWithNavController
 import com.jppappstudio.mediafeedplayer.android.services.InterstitialManager
+import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     private var currentNavController: LiveData<NavController>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -53,11 +55,11 @@ class MainActivity : AppCompatActivity() {
         val testDeviceIds = listOf("32458C77D0FBD29C560661E15833A002")
         val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
         MobileAds.setRequestConfiguration(configuration)
-        MobileAds.initialize(this) {
-            if (showAds) {
-                // navAdViewContainer = findViewById(R.id.nav_ad_view_container)
-                // loadBanner()
-            }
+        MobileAds.initialize(this) {}
+
+        if (showAds) {
+            navAdViewContainer = findViewById(R.id.nav_ad_view_container)
+            loadBanner()
         }
     }
 
@@ -96,23 +98,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadBanner() {
-        val display = windowManager.defaultDisplay
-        val outMetrics = DisplayMetrics()
-        display?.getMetrics(outMetrics)
-
-        val density = outMetrics.density
-
-        var adWidthPixels = navAdViewContainer.width.toFloat()
-        if (adWidthPixels == 0f) {
-            adWidthPixels = outMetrics.widthPixels.toFloat()
-        }
-
-        val adWidth = (adWidthPixels / density).toInt()
-        val adSize =  AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidth)
-
         adView = AdView(this)
-        adView.adSize = adSize
-        adView.adUnitId = "ca-app-pub-3940256099942544/6300978111"
+        adView.adSize = getAdaptiveBannerSize(navAdViewContainer.width.toFloat())
+        adView.adUnitId = BuildConfig.CHANNELS_ADUNIT_ID
 
         adView.adListener = object: AdListener() {
             override fun onAdLoaded() {
@@ -122,7 +110,7 @@ class MainActivity : AppCompatActivity() {
                 val animation = AnimationUtils.loadAnimation(applicationContext, R.anim.banner_slideup)
                 animation.setAnimationListener(object : Animation.AnimationListener {
                     override fun onAnimationEnd(p0: Animation?) {
-                        val constraintLayout = channels_constraintlayout
+                        val constraintLayout = container
                         val constraintSet = ConstraintSet()
                         constraintSet.clone(constraintLayout)
                         constraintSet.connect(R.id.nav_host_container, ConstraintSet.BOTTOM, R.id.nav_ad_view_container, ConstraintSet.TOP, 0)
@@ -137,5 +125,23 @@ class MainActivity : AppCompatActivity() {
 
         val adRequest = AdRequest.Builder().build()
         adView.loadAd(adRequest)
+    }
+
+    fun getAdaptiveBannerSize(width: Float): AdSize {
+        val display = windowManager.defaultDisplay
+        val outMetrics = DisplayMetrics()
+        display?.getMetrics(outMetrics)
+
+        val density = outMetrics.density
+
+        var adWidthPixels = width
+        if (adWidthPixels == 0f) {
+            adWidthPixels = outMetrics.widthPixels.toFloat()
+        }
+
+        val adWidth = (adWidthPixels / density).toInt()
+        val adSize =  AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidth)
+
+        return adSize
     }
 }
