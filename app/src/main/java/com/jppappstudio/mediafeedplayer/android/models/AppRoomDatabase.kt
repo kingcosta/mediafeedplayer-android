@@ -25,7 +25,17 @@ public abstract class AppRoomDatabase : RoomDatabase() {
             synchronized(this) {
                 val MIGRATION_1_2 = object: Migration(1, 2) {
                     override fun migrate(database: SupportSQLiteDatabase) {
-                        database.execSQL("CREATE TABLE `favourites` (`id` INTEGER, `title` STRING, `url` STRING, `thumbnailURL` STRING, `description` STRING, `type` STRING, `bookmarkable` INTEGER, PRIMARY KEY(`id`))")
+                        database.execSQL(
+                            "CREATE TABLE `favourites` (\n" +
+                                    "  `id` INTEGER NOT NULL DEFAULT null, \n" +
+                                    "  `title` TEXT NOT NULL DEFAULT null, \n" +
+                                    "  `url` TEXT NOT NULL DEFAULT null, \n" +
+                                    "  `thumbnailURL` TEXT NOT NULL DEFAULT null, \n" +
+                                    "  `description` TEXT NOT NULL DEFAULT null, \n" +
+                                    "  `type` TEXT NOT NULL DEFAULT null, \n" +
+                                    "  `bookmarkable` INTEGER NOT NULL DEFAULT null, \n" +
+                                    "  PRIMARY KEY(`id`)\n" +
+                                    ")")
                     }
                 }
 
