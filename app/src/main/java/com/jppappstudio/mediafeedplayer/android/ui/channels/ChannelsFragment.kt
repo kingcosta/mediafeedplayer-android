@@ -10,9 +10,7 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.os.bundleOf
@@ -34,11 +32,9 @@ import com.google.firebase.ktx.Firebase
 import com.jppappstudio.mediafeedplayer.android.BuildConfig
 import com.jppappstudio.mediafeedplayer.android.R
 import com.jppappstudio.mediafeedplayer.android.models.Channel
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.channel_row.view.*
 import kotlinx.android.synthetic.main.fragment_channels.*
 import kotlinx.android.synthetic.main.fragment_channels.view.*
-import kotlinx.coroutines.flow.channelFlow
 
 class ChannelsFragment : Fragment() {
 
@@ -234,6 +230,7 @@ class ChannelsViewHolder(val view: View, var channel: Channel? = null): Recycler
     init {
         view.setOnClickListener {
             val bundle = bundleOf(
+                "source" to "listings",
                 "listingTitle" to channel?.name,
                 "listingURL" to channel?.url
             )

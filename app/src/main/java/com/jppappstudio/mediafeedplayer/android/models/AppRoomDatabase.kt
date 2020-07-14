@@ -1,15 +1,16 @@
 package com.jppappstudio.mediafeedplayer.android.models
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 
-@Database(entities = arrayOf(Channel::class), version = 1, exportSchema = false)
+@Database(entities = [Channel::class, Listing::class], version = 2, exportSchema = false)
 public abstract class AppRoomDatabase : RoomDatabase() {
 
     abstract fun ChannelDao(): ChannelDao
+    abstract fun FavouritesDao(): FavouritesDao
 
     companion object {
         @Volatile
@@ -22,16 +23,22 @@ public abstract class AppRoomDatabase : RoomDatabase() {
             }
 
             synchronized(this) {
+                val MIGRATION_1_2 = object: Migration(1, 2) {
+                    override fun migrate(database: SupportSQLiteDatabase) {
+                        database.execSQL("CREATE TABLE `favourites` (`id` INTEGER, `title` STRING, `url` STRING, `thumbnailURL` STRING, `description` STRING, `type` STRING, `bookmarkable` INTEGER, PRIMARY KEY(`id`))")
+                    }
+                }
+
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppRoomDatabase::class.java,
                     "mfd.db"
                 )
+                    .addMigrations(MIGRATION_1_2)
                     .build()
                 INSTANCE = instance
                 return instance
             }
         }
     }
-
 }

@@ -1,11 +1,10 @@
 package com.jppappstudio.mediafeedplayer.android.ui.listings
 
-import android.content.res.Resources
-import androidx.lifecycle.ViewModel
-import com.jppappstudio.mediafeedplayer.android.R
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import com.jppappstudio.mediafeedplayer.android.models.Listing
 
-class ListingsViewModel: ViewModel() {
+class ListingsViewModel(application: Application): AndroidViewModel(application) {
 
     var listings = listOf<Listing>()
     var listingTitle = ""

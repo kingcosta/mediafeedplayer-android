@@ -3,6 +3,7 @@
 
     <!-- Bottom Navigation Bar -->
     <string name="bottom_nav_title_channels">Channels</string>
+    <string name="bottom_nav_title_favourites">Favourites</string>
     <string name="bottom_nav_title_more">More</string>
 
     <!-- New Channel Activity -->

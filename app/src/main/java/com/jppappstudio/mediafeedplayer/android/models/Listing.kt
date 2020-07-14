@@ -1,14 +1,19 @@
 package com.jppappstudio.mediafeedplayer.android.models
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.util.regex.Pattern
 
+@Entity(tableName = "favourites")
 class Listing(
-    val title: String,
-    val url: String,
-    var thumbnailURL: String = "",
-    val description: String = "",
-    val type: String = "",
-    val bookmarkable: Boolean = true
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") var id: Int,
+    @ColumnInfo(name = "title") val title: String,
+    @ColumnInfo(name = "url") val url: String,
+    @ColumnInfo(name = "thumbnailURL") var thumbnailURL: String = "",
+    @ColumnInfo(name = "description") val description: String = "",
+    @ColumnInfo(name = "type") val type: String = "",
+    @ColumnInfo(name = "bookmarkable") val bookmarkable: Boolean = true
 ) {
     init {
         if (thumbnailURL == "") {

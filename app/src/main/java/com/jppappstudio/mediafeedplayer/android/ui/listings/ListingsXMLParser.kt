@@ -102,6 +102,7 @@ class ListingsXMLParser {
         }
 
         return Listing(
+            0,
             title,
             url,
             thumbnailURL = thumbnailURL,

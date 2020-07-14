@@ -11,6 +11,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.lifecycle.ViewModel
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -29,6 +30,7 @@ class ListingsAdapter: RecyclerView.Adapter<ListingsViewHolder>(), Filterable {
     private var listings = emptyList<Listing>()
     private var listingsFiltered = mutableListOf<Listing>()
     private var listingsAll = emptyList<Listing>()
+    private lateinit var viewModel: ListingsViewModel
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListingsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -46,7 +48,6 @@ class ListingsAdapter: RecyclerView.Adapter<ListingsViewHolder>(), Filterable {
         holder.view.textView_listing_video_title.text = listing.title
 
         val imageView = holder.view.imageView_listing_thumbnail
-
         if (listing.thumbnailURL != "") {
             Picasso.get()
                 .load(listing.thumbnailURL)
@@ -56,11 +57,14 @@ class ListingsAdapter: RecyclerView.Adapter<ListingsViewHolder>(), Filterable {
         if (!listing.bookmarkable) {
             holder.view.imageButton_favourite.visibility = View.GONE
         } else {
-            // temporary turn off bookmark feature first
-            holder.view.imageButton_favourite.visibility = View.GONE
+            holder.view.imageButton_favourite.visibility = View.VISIBLE
         }
 
         holder.listing = listing
+
+        holder.view.imageButton_favourite.setOnClickListener {
+
+        }
     }
 
     fun setListings(listings: List<Listing>) {
@@ -69,12 +73,15 @@ class ListingsAdapter: RecyclerView.Adapter<ListingsViewHolder>(), Filterable {
         notifyDataSetChanged()
     }
 
+    fun setViewModel(viewModel: ListingsViewModel) {
+        this.viewModel = viewModel
+    }
+
     override fun getFilter(): Filter {
         return filter
     }
 
     private var filter = object : Filter() {
-
         // run on background thread
         override fun performFiltering(charSequence: CharSequence?): FilterResults {
             listingsFiltered.clear()
@@ -108,12 +115,11 @@ class ListingsViewHolder(val view: View, var listing: Listing? = null): Recycler
 
     init {
         view.setOnClickListener {
-
             listing?.let {
-
                 when (it.type) {
                     "application/rss+xml" -> {
-                        var bundle = bundleOf(
+                        val bundle = bundleOf(
+                            "source" to "listings",
                             "listingTitle" to it.title,
                             "listingURL" to it.url
                         )
@@ -122,8 +128,7 @@ class ListingsViewHolder(val view: View, var listing: Listing? = null): Recycler
                     }
 
                     "video/mp4" -> {
-
-                        var playVideo = {
+                        val playVideo = {
                             val intent = Intent(view.context, PlayerActivity::class.java)
                             intent.putExtra("videoURL", it.url)
                             view.context.startActivity(intent)
