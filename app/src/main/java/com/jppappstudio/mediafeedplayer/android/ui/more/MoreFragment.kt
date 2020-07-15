@@ -1,5 +1,6 @@
 package com.jppappstudio.mediafeedplayer.android.ui.more
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.browser.customtabs.CustomTabsIntent
@@ -30,14 +31,14 @@ class MoreFragment : PreferenceFragmentCompat() {
         feedbackCategory.title = getString(R.string.more_feedback)
         screen.addPreference(feedbackCategory)
 
-//        val ratePreference = Preference(context)
-//        ratePreference.key = "rate"
-//        ratePreference.title = getString(R.string.more_rate)
-//        ratePreference.setOnPreferenceClickListener {
-//            onPreferenceClick(it)
-//            true
-//        }
-//        feedbackCategory.addPreference(ratePreference)
+        val ratePreference = Preference(context)
+        ratePreference.key = "rate"
+        ratePreference.title = getString(R.string.more_rate)
+        ratePreference.setOnPreferenceClickListener {
+            onPreferenceClick(it)
+            true
+        }
+        feedbackCategory.addPreference(ratePreference)
 
         val tellPreference = Preference(context)
         tellPreference.key = "tell"
@@ -63,14 +64,14 @@ class MoreFragment : PreferenceFragmentCompat() {
         }
         followCategory.addPreference(fbPreference)
 
-//        val sharePreference = Preference(context)
-//        sharePreference.key = "share"
-//        sharePreference.title = getString(R.string.more_share)
-//        sharePreference.setOnPreferenceClickListener {
-//            onPreferenceClick(it)
-//            true
-//        }
-//        followCategory.addPreference(sharePreference)
+        val sharePreference = Preference(context)
+        sharePreference.key = "share"
+        sharePreference.title = getString(R.string.more_share)
+        sharePreference.setOnPreferenceClickListener {
+            onPreferenceClick(it)
+            true
+        }
+        followCategory.addPreference(sharePreference)
 
         // Other Category
         val otherCategory = PreferenceCategory(context)
@@ -121,7 +122,7 @@ class MoreFragment : PreferenceFragmentCompat() {
                 var url = ""
 
                 when (preference.key) {
-                    "rate" -> url = "https://apps.apple.com/us/app/media-feed-player/id1516148350?action=write-review"
+                    "rate" -> url = "https://play.google.com/store/apps/details?id=com.jppappstudio.mediafeedplayer.android"
                     "tell" -> url = "https://sites.google.com/view/jppappstudio-media-feed-player/contact-us"
                     "facebook" -> url = "https://www.facebook.com/mediafeedplayer"
                     "userguide" -> url = "https://sites.google.com/view/jppappstudio-media-feed-player/user-guide"
@@ -138,6 +139,16 @@ class MoreFragment : PreferenceFragmentCompat() {
             }
 
             "share" -> {
+
+                val share = Intent.createChooser(Intent().apply {
+                    action = Intent.ACTION_SEND
+                    type = "text/html"
+                    putExtra(Intent.EXTRA_TEXT, "https://www.facebook.com/mediafeedplayer")
+                    putExtra(Intent.EXTRA_TITLE, getString(R.string.app_name))
+                    flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                }, null)
+
+                startActivity(share)
 
             }
 

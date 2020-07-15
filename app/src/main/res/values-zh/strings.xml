@@ -42,4 +42,5 @@
     <string name="listing_row_image">影片图片</string>
     <string name="listing_row_favourite">影片收藏</string>
     <string name="videoplayer_title">播放器</string>
+    <string name="bottom_nav_title_favourites">收藏</string>
 </resources>

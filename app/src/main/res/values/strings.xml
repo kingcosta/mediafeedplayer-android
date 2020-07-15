@@ -20,7 +20,7 @@
     <string name="save_channel_empty_field">We can\'t proceed because one of the fields is empty. Please note that all fields are required.</string>
 
     <!-- Listings Fragment -->
-    <string name="listings_actionbar_title">List</string>
+    <string name="listings_actionbar_title">Videos</string>
     <string name="listings_cannot_connect_header">Opps</string>
     <string name="listings_cannot_connect">Cannot connect to \</string>
     <string name="listings_please_check">. Please double check the URL specified.</string>
