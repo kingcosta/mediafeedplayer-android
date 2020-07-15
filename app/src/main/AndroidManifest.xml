@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-<!--    android:networkSecurityConfig="@xml/network_security_config" -->
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
@@ -27,18 +26,12 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <activity android:name=".ui.channels.NewChannelActivity"
-            android:label="@string/new_channel_actionbar_title"
-            android:launchMode="singleTop">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:host="sites.google.com" android:scheme="http" />
                 <data android:host="sites.google.com" android:scheme="https" />
                 <data android:path="/view/jppappstudio-media-feed-player/home" />
@@ -46,9 +39,17 @@
 
         </activity>
 
+        <activity android:name=".ui.channels.NewChannelActivity"
+            android:label="@string/new_channel_actionbar_title"
+            android:launchMode="standard">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+
+        </activity>
+
         <activity android:name=".ui.player.PlayerActivity"
             android:label="@string/videoplayer_title"
-            android:launchMode="singleTop"
+            android:launchMode="standard"
             android:configChanges="orientation|screenSize|layoutDirection">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

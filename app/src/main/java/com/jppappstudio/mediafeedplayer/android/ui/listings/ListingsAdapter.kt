@@ -57,7 +57,7 @@ class ListingsAdapter: RecyclerView.Adapter<ListingsViewHolder>(), Filterable {
         if (!listing.bookmarkable) {
             holder.view.imageButton_favourite.visibility = View.GONE
         } else {
-            holder.view.imageButton_favourite.visibility = View.VISIBLE
+            holder.view.imageButton_favourite.visibility = View.GONE
         }
 
         holder.listing = listing

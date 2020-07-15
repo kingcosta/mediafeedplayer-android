@@ -2,6 +2,7 @@ package com.jppappstudio.mediafeedplayer.android
 
 import android.content.Intent
 import android.content.res.Configuration
+import android.net.Uri
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.animation.Animation
@@ -16,11 +17,14 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.gms.ads.*
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_channels.*
 import com.jppappstudio.mediafeedplayer.android.extensions.setupWithNavController
 import com.jppappstudio.mediafeedplayer.android.services.InterstitialManager
+import com.jppappstudio.mediafeedplayer.android.ui.channels.NewChannelActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.add_new_channel.*
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -52,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Nexus: 32458C77D0FBD29C560661E15833A002
-        val testDeviceIds = listOf("32458C77D0FBD29C560661E15833A002")
+        val testDeviceIds = listOf("")
         val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
         MobileAds.setRequestConfiguration(configuration)
         MobileAds.initialize(this) {}
@@ -61,11 +65,51 @@ class MainActivity : AppCompatActivity() {
             navAdViewContainer = findViewById(R.id.nav_ad_view_container)
             loadBanner()
         }
+
+        checkForDynamicLinks()
     }
 
     override fun onStart() {
         super.onStart()
         InterstitialManager.getInstance(this).loadNewInterstitialAd()
+    }
+
+    private fun checkForDynamicLinks() {
+        Firebase.dynamicLinks
+            .getDynamicLink(intent)
+            .addOnSuccessListener(this) { pendingDynamicLinkData ->
+                var deepLink: Uri? = null
+                if (pendingDynamicLinkData != null) {
+                    deepLink = pendingDynamicLinkData.link
+                }
+
+                if (deepLink != null) {
+                    // handle deep link
+                    val deepLinkAction = deepLink.getQueryParameter("action")
+
+                    if (deepLinkAction != "new_channel") {
+                        // println("Malicious deep link")
+                    } else {
+                        val channelName = deepLink.getQueryParameter("name")
+                        val channelURL = deepLink.getQueryParameter("url")
+
+                        if (channelName != "" || channelURL != "") {
+                            println("Deeplink: $channelName")
+                            println("Deeplink: $channelURL")
+
+                            val newIntent = Intent(this, NewChannelActivity::class.java)
+                            newIntent.putExtra("mode", "new_direct")
+                            newIntent.putExtra("name", channelName)
+                            newIntent.putExtra("url", channelURL)
+                            startActivity(newIntent)
+                        }
+                    }
+                }
+            }
+
+            .addOnFailureListener(this) { e ->
+                // println("getDynamicLink:OnFailure – ${e.localizedMessage}")
+            }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
@@ -76,7 +120,11 @@ class MainActivity : AppCompatActivity() {
     private fun setupBottomNavigationBar() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
 
-        val navGraphIds = listOf(R.navigation.nav_channels, R.navigation.nav_favourites, R.navigation.nav_more)
+        val navGraphIds = listOf(
+            R.navigation.nav_channels,
+//            R.navigation.nav_favourites,
+            R.navigation.nav_more
+        )
 
         // Setup the bottom navigation view with a list of navigation graphs
         val controller = bottomNavigationView.setupWithNavController(

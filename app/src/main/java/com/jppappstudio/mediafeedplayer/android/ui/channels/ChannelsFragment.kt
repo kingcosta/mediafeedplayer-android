@@ -154,7 +154,7 @@ class ChannelsFragment : Fragment() {
 
 class ChannelsAdapter: RecyclerView.Adapter<ChannelsViewHolder>() {
 
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
+    private var firebaseAnalytics: FirebaseAnalytics
     private var channels = emptyList<Channel>()
     private lateinit var channelViewModel: ChannelViewModel
 

@@ -33,6 +33,8 @@ class NewChannelActivity: AppCompatActivity() {
         val bundle: Bundle? = intent.extras
         var newMode: String? = bundle?.getString("mode")
 
+        println("Deeplink: $newMode")
+
         if (newMode != null) {
             mode = newMode
         }
@@ -49,43 +51,16 @@ class NewChannelActivity: AppCompatActivity() {
             editText_channel_url.setText(bundle.getString("url"))
         }
 
-        checkForDynamicLinks()
+        if (mode == "new_direct") {
+            editText_channel_name.setText(bundle?.getString("name"))
+            editText_channel_url.setText(bundle?.getString("url"))
+        }
+
         firebaseAnalytics.logEvent("new_channel_form_open") {}
     }
 
     override fun onStart() {
         super.onStart()
-        checkForDynamicLinks()
-    }
-
-    private fun checkForDynamicLinks() {
-        Firebase.dynamicLinks
-            .getDynamicLink(intent)
-            .addOnSuccessListener(this) { pendingDynamicLinkData ->
-                var deepLink: Uri? = null
-                if (pendingDynamicLinkData != null) {
-                    deepLink = pendingDynamicLinkData.link
-                }
-
-                if (deepLink != null) {
-                    // handle deep link
-                    val deepLinkAction = deepLink.getQueryParameter("action")
-
-                    if (deepLinkAction != "new_channel") {
-                        // println("Malicious deep link")
-                    } else {
-                        val channelName = deepLink.getQueryParameter("name")
-                        val channelURL = deepLink.getQueryParameter("url")
-
-                        editText_channel_name.setText(channelName)
-                        editText_channel_url.setText(channelURL)
-                    }
-                }
-            }
-
-            .addOnFailureListener(this) { e ->
-                 // println("getDynamicLink:OnFailure – ${e.localizedMessage}")
-            }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -124,7 +99,7 @@ class NewChannelActivity: AppCompatActivity() {
 
             val channelViewModel = ViewModelProvider(this).get(ChannelViewModel::class.java)
 
-            if (mode == "new") {
+            if (mode == "new" || mode == "new_direct" ) {
                 val channel = Channel(0, channelName, channelURL)
                 channelViewModel.insert(channel)
                 finish()
