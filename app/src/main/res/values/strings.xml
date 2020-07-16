@@ -45,6 +45,10 @@
     <string name="channels_backgroundview_text_headline">Nothing Here</string>
     <string name="channels_backgroundview_text_subheadline">Tap + to add some channels</string>
 
+    <!-- Favourites Fragment -->
+    <string name="favourites_backgroundview_text_headline">Nothing Here</string>
+    <string name="favourites_backgroundview_text_subheadline">Start bookmarking in Channels</string>
+
     <!-- Channel Row View -->
     <string name="channel_row_name">Channel Name</string>
     <string name="channel_row_image">Channel Image</string>

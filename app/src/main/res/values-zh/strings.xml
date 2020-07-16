@@ -43,4 +43,6 @@
     <string name="listing_row_favourite">影片收藏</string>
     <string name="videoplayer_title">播放器</string>
     <string name="bottom_nav_title_favourites">收藏</string>
+    <string name="favourites_backgroundview_text_headline">空白</string>
+    <string name="favourites_backgroundview_text_subheadline">开始个人收藏</string>
 </resources>

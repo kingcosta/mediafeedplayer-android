@@ -1,6 +1,5 @@
 package com.jppappstudio.mediafeedplayer.android.ui.channels
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -11,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
-import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import com.jppappstudio.mediafeedplayer.android.R
 import com.jppappstudio.mediafeedplayer.android.models.Channel

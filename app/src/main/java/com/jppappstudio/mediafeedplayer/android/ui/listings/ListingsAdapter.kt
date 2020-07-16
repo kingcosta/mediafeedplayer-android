@@ -7,30 +7,33 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import androidx.appcompat.widget.SearchView
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.lifecycle.ViewModel
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.ktx.Firebase
+import com.jppappstudio.mediafeedplayer.android.MainActivity
 import com.jppappstudio.mediafeedplayer.android.R
-import com.jppappstudio.mediafeedplayer.android.models.Channel
 import com.jppappstudio.mediafeedplayer.android.models.Listing
 import com.jppappstudio.mediafeedplayer.android.services.InterstitialManager
+import com.jppappstudio.mediafeedplayer.android.ui.favourites.FavouritesViewModel
 import com.jppappstudio.mediafeedplayer.android.ui.player.PlayerActivity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.listing_row.view.*
 
-class ListingsAdapter: RecyclerView.Adapter<ListingsViewHolder>(), Filterable {
+class ListingsAdapter(mode: String = "listings"): RecyclerView.Adapter<ListingsViewHolder>(), Filterable {
+
+    private var mode = mode
     private var listings = emptyList<Listing>()
     private var listingsFiltered = mutableListOf<Listing>()
     private var listingsAll = emptyList<Listing>()
-    private lateinit var viewModel: ListingsViewModel
+
+    private lateinit var listingsViewModel: ListingsViewModel
+    private lateinit var favouritesViewModel: FavouritesViewModel
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListingsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -45,6 +48,7 @@ class ListingsAdapter: RecyclerView.Adapter<ListingsViewHolder>(), Filterable {
     override fun onBindViewHolder(holder: ListingsViewHolder, position: Int) {
         val listing = listings.get(position)
 
+        holder.listing = listing
         holder.view.textView_listing_video_title.text = listing.title
 
         val imageView = holder.view.imageView_listing_thumbnail
@@ -54,27 +58,57 @@ class ListingsAdapter: RecyclerView.Adapter<ListingsViewHolder>(), Filterable {
                 .into(imageView)
         }
 
-        if (!listing.bookmarkable) {
-            holder.view.imageButton_favourite.visibility = View.GONE
-        } else {
-            holder.view.imageButton_favourite.visibility = View.GONE
-        }
+        holder.view.imageButton_favourite.apply {
+            setImageResource(R.drawable.ic_bookmark_border_black_24dp)
 
-        holder.listing = listing
+            if (mode == "listings") {
+                if (favouritesViewModel.favourited.get(position)) {
+                    setImageResource(R.drawable.ic_bookmark_black_24dp)
+                } else {
+                    setImageResource(R.drawable.ic_bookmark_border_black_24dp)
 
-        holder.view.imageButton_favourite.setOnClickListener {
+                    setOnClickListener {
+                        favouritesViewModel.insert(listing)
+                        favouritesViewModel.favourited[position] = true
+                        setImageResource(R.drawable.ic_bookmark_black_24dp)
+                        (context as MainActivity).setFavouriteBadge()
+                    }
+                }
 
+                if (!listing.bookmarkable) {
+                    visibility = View.GONE
+                } else {
+                    visibility = View.VISIBLE
+                }
+            }
+
+            if (mode == "favourites") {
+                visibility = View.VISIBLE
+                setImageResource(R.drawable.ic_bookmark_black_24dp)
+                setOnClickListener {
+                    favouritesViewModel.delete(listing)
+                }
+            }
         }
     }
 
     fun setListings(listings: List<Listing>) {
         this.listings = listings
         this.listingsAll = listings
+
+        if (this.favouritesViewModel.favourited.isEmpty()) {
+            this.favouritesViewModel.favourited = MutableList(listings.size) { false }
+        }
+
         notifyDataSetChanged()
     }
 
-    fun setViewModel(viewModel: ListingsViewModel) {
-        this.viewModel = viewModel
+    fun setListingsViewModel(viewModel: ListingsViewModel) {
+        this.listingsViewModel = viewModel
+    }
+
+    fun setFavouritesViewModel(viewModel: FavouritesViewModel) {
+        this.favouritesViewModel = viewModel
     }
 
     override fun getFilter(): Filter {

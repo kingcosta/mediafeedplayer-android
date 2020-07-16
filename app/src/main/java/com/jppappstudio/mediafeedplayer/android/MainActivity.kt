@@ -2,6 +2,7 @@ package com.jppappstudio.mediafeedplayer.android
 
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -11,6 +12,7 @@ import android.widget.FrameLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -28,6 +30,8 @@ import kotlinx.android.synthetic.main.add_new_channel.*
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var bottomNavigationView: BottomNavigationView
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private var showAds = BuildConfig.ALLOW_NAVIGATION_BANNER
@@ -115,11 +119,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupBottomNavigationBar() {
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
+        bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
 
         val navGraphIds = listOf(
             R.navigation.nav_channels,
-//            R.navigation.nav_favourites,
+            R.navigation.nav_favourites,
             R.navigation.nav_more
         )
 
@@ -140,6 +144,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         return currentNavController?.value?.navigateUp() ?: false
+    }
+
+    fun setFavouriteBadge(remove: Boolean = false) {
+        bottomNavigationView.getOrCreateBadge(R.id.nav_favourites).apply {
+            backgroundColor = ContextCompat.getColor(applicationContext, R.color.primaryDarkColor)
+            isVisible = !remove
+        }
     }
 
     private fun loadBanner() {

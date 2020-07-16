@@ -13,7 +13,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdListener
@@ -27,6 +26,7 @@ import com.google.firebase.ktx.Firebase
 import com.jppappstudio.mediafeedplayer.android.BuildConfig
 import com.jppappstudio.mediafeedplayer.android.MainActivity
 import com.jppappstudio.mediafeedplayer.android.R
+import com.jppappstudio.mediafeedplayer.android.ui.favourites.FavouritesViewModel
 import kotlinx.android.synthetic.main.fragment_listings.*
 import kotlinx.android.synthetic.main.fragment_listings.view.*
 import okhttp3.*
@@ -41,7 +41,8 @@ class ListingsFragment : Fragment() {
     private var listingURL: String? = null
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
-    private lateinit var viewModel: ListingsViewModel
+    private lateinit var listingsViewModel: ListingsViewModel
+    private lateinit var favouritesViewModel: FavouritesViewModel
 
     private lateinit var viewAdapter: ListingsAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
@@ -59,17 +60,20 @@ class ListingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         firebaseAnalytics = Firebase.analytics
-
-        viewAdapter = ListingsAdapter()
+        viewAdapter = ListingsAdapter("listings")
         viewManager = LinearLayoutManager(activity)
-        viewModel = ViewModelProvider(this).get(ListingsViewModel::class.java)
-        viewAdapter.setViewModel(viewModel)
+
+        listingsViewModel = ViewModelProvider(this).get(ListingsViewModel::class.java)
+        favouritesViewModel = ViewModelProvider(this).get(FavouritesViewModel::class.java)
+
+        viewAdapter.setListingsViewModel(listingsViewModel)
+        viewAdapter.setFavouritesViewModel(favouritesViewModel)
 
         listingTitle = arguments?.getString("listingTitle")
         listingURL = arguments?.getString("listingURL")
 
-        viewModel.listingTitle = listingTitle ?: "Videos"
-        (activity as MainActivity).supportActionBar?.title = viewModel.listingTitle
+        listingsViewModel.listingTitle = listingTitle ?: "Videos"
+        (activity as MainActivity).supportActionBar?.title = listingsViewModel.listingTitle
 
         val root = inflater.inflate(R.layout.fragment_listings, container, false)
 
@@ -84,7 +88,6 @@ class ListingsFragment : Fragment() {
 
         fetchRecord()
 
-
         if (showBannerAds) {
             listingsAdViewContainer = root.findViewById(R.id.listings_ad_view_container)
             loadBanner()
@@ -96,7 +99,7 @@ class ListingsFragment : Fragment() {
     private fun fetchRecord() {
         progressBar.visibility = View.VISIBLE
 
-        if (viewModel.listings.isEmpty()) {
+        if (listingsViewModel.listings.isEmpty()) {
             val uid = UUID.randomUUID().toString().toMD5()
 
             if (listingURL != null) {
@@ -115,11 +118,11 @@ class ListingsFragment : Fragment() {
                                 val parser = ListingsXMLParser()
 
                                 try {
-                                    viewModel.listings = parser.parse(inputStreamBody)
+                                    listingsViewModel.listings = parser.parse(inputStreamBody)
 
                                     activity?.runOnUiThread {
                                         progressBar.visibility = View.INVISIBLE
-                                        viewAdapter.setListings(viewModel.listings)
+                                        viewAdapter.setListings(listingsViewModel.listings)
                                     }
                                 } catch (exception: XmlPullParserException) {
                                     // println("Parsing Exception: ${exception.localizedMessage}")
@@ -142,7 +145,7 @@ class ListingsFragment : Fragment() {
         } else {
             activity?.runOnUiThread {
                 progressBar.visibility = View.INVISIBLE
-                viewAdapter.setListings(viewModel.listings)
+                viewAdapter.setListings(listingsViewModel.listings)
             }
         }
     }

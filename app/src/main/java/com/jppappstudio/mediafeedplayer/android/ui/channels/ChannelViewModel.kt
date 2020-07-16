@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.ads.AdView
 import com.jppappstudio.mediafeedplayer.android.models.AppRoomDatabase
 import com.jppappstudio.mediafeedplayer.android.models.Channel
 import com.jppappstudio.mediafeedplayer.android.models.ChannelDao

@@ -12,12 +12,19 @@
         android:label="@string/bottom_nav_title_favourites"
         tools:layout="@layout/fragment_favourites">
         <action
-            android:id="@+id/action_favouritesFragment_to_channelsFragment2"
-            app:destination="@id/channelsFragment2" />
+            android:id="@+id/openListingsFromListing"
+            app:destination="@id/listingsFragment" />
     </fragment>
+
     <fragment
-        android:id="@+id/channelsFragment2"
-        android:name="com.jppappstudio.mediafeedplayer.android.ui.channels.ChannelsFragment"
-        android:label="fragment_channels"
-        tools:layout="@layout/fragment_channels" />
+        android:id="@+id/listingsFragment"
+        android:name="com.jppappstudio.mediafeedplayer.android.ui.listings.ListingsFragment"
+        android:label="fragment_listings"
+        tools:layout="@layout/fragment_listings" >
+        <action
+            android:id="@+id/openListingsFromListing"
+            app:destination="@id/listingsFragment" />
+    </fragment>
+
+
 </navigation>
