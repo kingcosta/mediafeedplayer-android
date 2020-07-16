@@ -7,6 +7,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [1.1] - 2020-07-16
+### Added
+- Favourite Videos
+
 ## [1.0.2] - 2020-07-15
 ### Fixed
 - Dynamic link handler called from main activity instead of new channel activity to keep user in the app
