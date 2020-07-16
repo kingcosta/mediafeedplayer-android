@@ -33,8 +33,6 @@ class NewChannelActivity: AppCompatActivity() {
         val bundle: Bundle? = intent.extras
         var newMode: String? = bundle?.getString("mode")
 
-        println("Deeplink: $newMode")
-
         if (newMode != null) {
             mode = newMode
         }

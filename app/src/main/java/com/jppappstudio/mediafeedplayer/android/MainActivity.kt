@@ -94,9 +94,6 @@ class MainActivity : AppCompatActivity() {
                         val channelURL = deepLink.getQueryParameter("url")
 
                         if (channelName != "" || channelURL != "") {
-                            println("Deeplink: $channelName")
-                            println("Deeplink: $channelURL")
-
                             val newIntent = Intent(this, NewChannelActivity::class.java)
                             newIntent.putExtra("mode", "new_direct")
                             newIntent.putExtra("name", channelName)
