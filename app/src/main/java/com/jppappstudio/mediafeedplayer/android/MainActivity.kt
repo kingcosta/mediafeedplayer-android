@@ -1,16 +1,12 @@
 package com.jppappstudio.mediafeedplayer.android
 
 import android.content.Intent
-import android.content.res.Configuration
-import android.graphics.Color
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
-import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintSet
@@ -23,17 +19,10 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
-import com.google.firebase.remoteconfig.ktx.remoteConfig
-import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
-import kotlinx.android.synthetic.main.fragment_channels.*
 import com.jppappstudio.mediafeedplayer.android.extensions.setupWithNavController
 import com.jppappstudio.mediafeedplayer.android.services.InterstitialManager
 import com.jppappstudio.mediafeedplayer.android.ui.channels.NewChannelActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.add_new_channel.*
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 

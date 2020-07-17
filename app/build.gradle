@@ -15,8 +15,8 @@ android {
         applicationId "com.jppappstudio.mediafeedplayer.android"
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 8
-        versionName "1.1"
+        versionCode 9
+        versionName "1.1.1"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled = true
         resConfigs "en", "zh"
@@ -30,8 +30,8 @@ android {
 
             buildConfigField("Boolean", 'ALLOW_INTERSTITIAL', "true")
             buildConfigField("Boolean", 'ALLOW_NAVIGATION_BANNER', "false")
-            buildConfigField("Boolean", 'ALLOW_CHANNELS_BANNER', "false")
-            buildConfigField("Boolean", 'ALLOW_LISTINGS_BANNER', "false")
+            buildConfigField("Boolean", 'ALLOW_CHANNELS_BANNER', "true")
+            buildConfigField("Boolean", 'ALLOW_LISTINGS_BANNER', "true")
 
             buildConfigField("String", 'INTERSTITIAL_ADUNIT_ID', "\"ca-app-pub-3940256099942544/1033173712\"")
             buildConfigField("String", 'CHANNELS_ADUNIT_ID', "\"ca-app-pub-3940256099942544/6300978111\"")
@@ -48,8 +48,8 @@ android {
 
             buildConfigField("Boolean", 'ALLOW_INTERSTITIAL', "true")
             buildConfigField("Boolean", 'ALLOW_NAVIGATION_BANNER', "false")
-            buildConfigField("Boolean", 'ALLOW_CHANNELS_BANNER', "false")
-            buildConfigField("Boolean", 'ALLOW_LISTINGS_BANNER', "false")
+            buildConfigField("Boolean", 'ALLOW_CHANNELS_BANNER', "true")
+            buildConfigField("Boolean", 'ALLOW_LISTINGS_BANNER', "true")
 
             buildConfigField("String", 'INTERSTITIAL_ADUNIT_ID', "\"ca-app-pub-8588299029427703/8686274342\"")
             buildConfigField("String", 'CHANNELS_ADUNIT_ID', "\"ca-app-pub-8588299029427703/1536210936\"")
@@ -106,7 +106,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx:17.4.4'
     implementation 'com.google.firebase:firebase-dynamic-links-ktx:19.1.0'
     implementation 'com.google.firebase:firebase-perf:19.0.7'
-    implementation 'com.google.firebase:firebase-config-ktx:19.2.0'
     implementation 'com.google.android.gms:play-services-ads:19.2.0'
     // implementation 'com.google.ads.mediation:facebook:5.10.0.0'
 

@@ -25,9 +25,8 @@ import com.jppappstudio.mediafeedplayer.android.ui.player.PlayerActivity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.listing_row.view.*
 
-class ListingsAdapter(mode: String = "listings"): RecyclerView.Adapter<ListingsViewHolder>(), Filterable {
+class ListingsAdapter(private var mode: String = "listings"): RecyclerView.Adapter<ListingsViewHolder>(), Filterable {
 
-    private var mode = mode
     private var listings = emptyList<Listing>()
     private var listingsFiltered = mutableListOf<Listing>()
     private var listingsAll = emptyList<Listing>()
@@ -72,6 +71,11 @@ class ListingsAdapter(mode: String = "listings"): RecyclerView.Adapter<ListingsV
                         favouritesViewModel.favourited[position] = true
                         setImageResource(R.drawable.ic_bookmark_black_24dp)
                         (context as MainActivity).setFavouriteBadge()
+
+                        Firebase.analytics.logEvent("added_favourite") {
+                            param("content_title", listing.title)
+                            param("content_type", listing.type)
+                        }
                     }
                 }
 
@@ -87,6 +91,10 @@ class ListingsAdapter(mode: String = "listings"): RecyclerView.Adapter<ListingsV
                 setImageResource(R.drawable.ic_bookmark_black_24dp)
                 setOnClickListener {
                     favouritesViewModel.delete(listing)
+                    Firebase.analytics.logEvent("deleted_favourite") {
+                        param("content_title", listing.title)
+                        param("content_type", listing.type)
+                    }
                 }
             }
         }
@@ -145,8 +153,6 @@ class ListingsAdapter(mode: String = "listings"): RecyclerView.Adapter<ListingsV
 
 class ListingsViewHolder(val view: View, var listing: Listing? = null): RecyclerView.ViewHolder(view) {
 
-    private var firebaseAnalytics: FirebaseAnalytics = Firebase.analytics
-
     init {
         view.setOnClickListener {
             listing?.let {
@@ -167,7 +173,7 @@ class ListingsViewHolder(val view: View, var listing: Listing? = null): Recycler
                             intent.putExtra("videoURL", it.url)
                             view.context.startActivity(intent)
 
-                            firebaseAnalytics.logEvent("play_video") {
+                            Firebase.analytics.logEvent("play_video") {
                                 param("source", "listings")
                             }
                         }
@@ -190,6 +196,11 @@ class ListingsViewHolder(val view: View, var listing: Listing? = null): Recycler
                     }
 
                     else -> {}
+                }
+
+                Firebase.analytics.logEvent("play_content") {
+                    param("content_title", it.title)
+                    param("content_type", it.type)
                 }
             }
         }
