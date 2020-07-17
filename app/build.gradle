@@ -106,6 +106,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx:17.4.4'
     implementation 'com.google.firebase:firebase-dynamic-links-ktx:19.1.0'
     implementation 'com.google.firebase:firebase-perf:19.0.7'
+    implementation 'com.google.firebase:firebase-config-ktx:19.2.0'
     implementation 'com.google.android.gms:play-services-ads:19.2.0'
     // implementation 'com.google.ads.mediation:facebook:5.10.0.0'
 

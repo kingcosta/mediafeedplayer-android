@@ -89,8 +89,10 @@ class ListingsFragment : Fragment() {
         fetchRecord()
 
         if (showBannerAds) {
-            listingsAdViewContainer = root.findViewById(R.id.listings_ad_view_container)
-            loadBanner()
+            if (listingsViewModel.listings.isEmpty()) {
+                listingsAdViewContainer = root.findViewById(R.id.listings_ad_view_container)
+                loadBanner()
+            }
         }
 
         return root
