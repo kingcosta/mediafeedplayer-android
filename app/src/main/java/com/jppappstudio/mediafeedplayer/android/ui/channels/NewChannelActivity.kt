@@ -29,7 +29,7 @@ class NewChannelActivity: AppCompatActivity() {
         firebaseAnalytics = Firebase.analytics
 
         val bundle: Bundle? = intent.extras
-        var newMode: String? = bundle?.getString("mode")
+        val newMode: String? = bundle?.getString("mode")
 
         if (newMode != null) {
             mode = newMode
@@ -78,8 +78,8 @@ class NewChannelActivity: AppCompatActivity() {
     fun saveButtonTapped() {
         var message = ""
         var readyToSave = true
-        var channelName = editText_channel_name.text.toString()
-        var channelURL = editText_channel_url.text.toString()
+        val channelName = editText_channel_name.text.toString()
+        val channelURL = editText_channel_url.text.toString()
 
         if (!URLUtil.isValidUrl(channelURL)) {
             message = getString(R.string.save_channel_invalid_url)
@@ -100,9 +100,19 @@ class NewChannelActivity: AppCompatActivity() {
                 channelViewModel.insert(channel)
                 finish()
 
-                firebaseAnalytics.logEvent("added_new_channel") {
-                    param("channel_name", channelName)
-                    param("channel_url", channelURL)
+                if (mode == "new") {
+                    firebaseAnalytics.logEvent("added_new_channel") {
+                        param("channel_name", channelName)
+                        param("channel_url", channelURL)
+                    }
+                }
+
+                if (mode == "new_direct") {
+                    firebaseAnalytics.setUserProperty("direct_insertion_user", "true")
+                    firebaseAnalytics.logEvent("added_new_channel_direct") {
+                        param("channel_name", channelName)
+                        param("channel_url", channelURL)
+                    }
                 }
             }
 
