@@ -74,32 +74,50 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkForDynamicLinks() {
+        var channelName: String? = ""
+        var channelURL: String? = ""
+        var action: String? = ""
+
         Firebase.dynamicLinks
             .getDynamicLink(intent)
             .addOnSuccessListener(this) { pendingDynamicLinkData ->
                 var deepLink: Uri? = null
+
                 if (pendingDynamicLinkData != null) {
                     deepLink = pendingDynamicLinkData.link
-                }
 
-                if (deepLink != null) {
-                    // handle deep link
-                    val deepLinkAction = deepLink.getQueryParameter("action")
+                    if (deepLink != null) {
+                        // println("Deeplink: Firebase Deep Link")
 
-                    if (deepLinkAction != "new_channel") {
-                        // println("Malicious deep link")
-                    } else {
-                        val channelName = deepLink.getQueryParameter("name")
-                        val channelURL = deepLink.getQueryParameter("url")
+                        action = deepLink.getQueryParameter("action")
 
-                        if (channelName != "" || channelURL != "") {
-                            val newIntent = Intent(this, NewChannelActivity::class.java)
-                            newIntent.putExtra("mode", "new_direct")
-                            newIntent.putExtra("name", channelName)
-                            newIntent.putExtra("url", channelURL)
-                            startActivity(newIntent)
+                        if (action != "new_channel") {
+                            // println("Malicious deeplink")
+                        } else {
+                            channelName = deepLink.getQueryParameter("name")
+                            channelURL = deepLink.getQueryParameter("url")
                         }
                     }
+                } else if (intent.dataString != null) {
+                    // println("Deeplink: Regular Deep Link")
+
+                    val uri = Uri.parse(intent.dataString)
+                    action = uri.getQueryParameter("action")
+
+                    if (action != "new_channel") {
+                        // println("Malicious deeplink")
+                    } else {
+                        channelName = uri.getQueryParameter("name")
+                        channelURL = uri.getQueryParameter("url")
+                    }
+                }
+
+                if (action == "new_channel" || channelName != "" || channelURL != "") {
+                    val newIntent = Intent(this, NewChannelActivity::class.java)
+                    newIntent.putExtra("mode", "new_direct")
+                    newIntent.putExtra("name", channelName)
+                    newIntent.putExtra("url", channelURL)
+                    startActivity(newIntent)
                 }
             }
 
