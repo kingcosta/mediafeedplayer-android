@@ -6,8 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
+
+## [1.1.2] - 2020-07-18
 ### [Fixed]
 - Fix bug when a new interstitial ad is not load when user finish a video
+- Handle deep link when open from Facebook
 
 ## [1.1.1] - 2020-07-17
 ### Changes
