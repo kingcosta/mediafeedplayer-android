@@ -68,6 +68,7 @@ class PlayerActivity: AppCompatActivity(), Player.EventListener {
     override fun onDestroy() {
         super.onDestroy()
         simpleExoPlayer.release()
+        InterstitialManager.getInstance(this).loadNewInterstitialAd()
     }
 
     private fun setupPlayer() {
@@ -119,7 +120,6 @@ class PlayerActivity: AppCompatActivity(), Player.EventListener {
         })
 
         btBack.setOnClickListener(View.OnClickListener {
-            InterstitialManager.getInstance(this).loadNewInterstitialAd()
             finish()
         })
     }
