@@ -113,6 +113,8 @@ class ChannelsFragment : Fragment() {
 
             val customTabsIntent = builder.build()
             customTabsIntent.launchUrl(it.context, Uri.parse(url))
+
+            Firebase.analytics.logEvent("open_user_guide_from_channels") {}
         }
     }
 

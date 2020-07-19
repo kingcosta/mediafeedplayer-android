@@ -7,6 +7,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 ### [Added]
+
+## [1.1.4] - 2020-07-19
+- Added Firebase Tracking in channel user guide
+
+## [1.1.3] - 2020-07-19
 - User Guide button in empty Channels fragment
 
 ## [1.1.2] - 2020-07-18
