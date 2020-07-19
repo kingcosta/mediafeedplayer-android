@@ -2,6 +2,7 @@ package com.jppappstudio.mediafeedplayer.android.ui.channels
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
@@ -9,10 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.appcompat.widget.PopupMenu
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -81,6 +86,7 @@ class ChannelsFragment : Fragment() {
         viewAdapter.setChannelViewModel(channelViewModel)
 
         setupFab(root.floatingActionButton_new_channel)
+        setupUserGuideButton(root.button_userguide)
 
         if (showBannerAds) {
             channelsAdViewContainer = root.findViewById(R.id.channels_ad_view_container)
@@ -94,6 +100,19 @@ class ChannelsFragment : Fragment() {
         fab.setOnClickListener {
             val intent = Intent(context, NewChannelActivity::class.java)
             context?.startActivity(intent)
+        }
+    }
+
+    private fun setupUserGuideButton(button: Button) {
+        button.setOnClickListener {
+            var url = "https://sites.google.com/view/jppappstudio-media-feed-player/user-guide"
+
+            val builder = CustomTabsIntent.Builder()
+            builder.setToolbarColor(resources.getColor(R.color.primaryColor))
+            builder.addDefaultShareMenuItem()
+
+            val customTabsIntent = builder.build()
+            customTabsIntent.launchUrl(it.context, Uri.parse(url))
         }
     }
 
