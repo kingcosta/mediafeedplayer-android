@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## Unreleased
 ### [Added]
 
+## [1.1.5] - 2020-07-26
+### [Added]
+- Firebase crashlytic tracking
+
 ## [1.1.4] - 2020-07-19
 - Added Firebase Tracking in channel user guide
 
