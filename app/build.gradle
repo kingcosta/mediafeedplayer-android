@@ -42,6 +42,10 @@ android {
             FirebasePerformance {
                 instrumentationEnabled false
             }
+
+            firebaseCrashlytics {
+                mappingFileUploadEnabled false
+            }
         }
 
         release {
