@@ -10,6 +10,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -24,7 +25,6 @@ import com.jppappstudio.mediafeedplayer.android.BuildConfig
 import com.jppappstudio.mediafeedplayer.android.MainActivity
 import com.jppappstudio.mediafeedplayer.android.R
 import com.jppappstudio.mediafeedplayer.android.ui.listings.ListingsAdapter
-import kotlinx.android.synthetic.main.fragment_favourites.*
 import kotlinx.android.synthetic.main.fragment_favourites.view.*
 
 class FavouritesFragment : Fragment() {
@@ -37,6 +37,7 @@ class FavouritesFragment : Fragment() {
     private var showBannerAds = BuildConfig.ALLOW_LISTINGS_BANNER
     private lateinit var adView: AdView
     private lateinit var favouritesAdViewContainer: FrameLayout
+    private lateinit var constraintLayout: ConstraintLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,6 +72,7 @@ class FavouritesFragment : Fragment() {
 
         if (showBannerAds) {
             favouritesAdViewContainer = root.findViewById(R.id.favourites_ad_view_container)
+            constraintLayout = root.findViewById(R.id.favourites_constraintlayout)
             loadBanner()
         }
 
@@ -103,7 +105,6 @@ class FavouritesFragment : Fragment() {
                 val animation = AnimationUtils.loadAnimation(context, R.anim.banner_slideup)
                 animation.setAnimationListener(object : Animation.AnimationListener {
                     override fun onAnimationEnd(p0: Animation?) {
-                        val constraintLayout = favourites_constraintlayout
                         val constraintSet = ConstraintSet()
                         constraintSet.clone(constraintLayout)
                         constraintSet.connect(R.id.recyclerview_favourites, ConstraintSet.BOTTOM, R.id.favourites_ad_view_container, ConstraintSet.TOP, 0)

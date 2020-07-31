@@ -31,8 +31,8 @@ android {
 
             buildConfigField("Boolean", 'ALLOW_INTERSTITIAL', "true")
             buildConfigField("Boolean", 'ALLOW_NAVIGATION_BANNER', "false")
-            buildConfigField("Boolean", 'ALLOW_CHANNELS_BANNER', "false")
-            buildConfigField("Boolean", 'ALLOW_LISTINGS_BANNER', "false")
+            buildConfigField("Boolean", 'ALLOW_CHANNELS_BANNER', "true")
+            buildConfigField("Boolean", 'ALLOW_LISTINGS_BANNER', "true")
 
             buildConfigField("String", 'INTERSTITIAL_ADUNIT_ID', "\"ca-app-pub-3940256099942544/1033173712\"")
             buildConfigField("String", 'CHANNELS_ADUNIT_ID', "\"ca-app-pub-3940256099942544/6300978111\"")

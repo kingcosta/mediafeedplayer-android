@@ -16,8 +16,8 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.appcompat.widget.PopupMenu
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -38,7 +38,6 @@ import com.jppappstudio.mediafeedplayer.android.BuildConfig
 import com.jppappstudio.mediafeedplayer.android.R
 import com.jppappstudio.mediafeedplayer.android.models.Channel
 import kotlinx.android.synthetic.main.channel_row.view.*
-import kotlinx.android.synthetic.main.fragment_channels.*
 import kotlinx.android.synthetic.main.fragment_channels.view.*
 
 class ChannelsFragment : Fragment() {
@@ -51,6 +50,7 @@ class ChannelsFragment : Fragment() {
     private var showBannerAds = BuildConfig.ALLOW_CHANNELS_BANNER
     private lateinit var adView: AdView
     private lateinit var channelsAdViewContainer: FrameLayout
+    private lateinit var constraintLayout: ConstraintLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -90,6 +90,7 @@ class ChannelsFragment : Fragment() {
 
         if (showBannerAds) {
             channelsAdViewContainer = root.findViewById(R.id.channels_ad_view_container)
+            constraintLayout = root.findViewById(R.id.channels_constraintlayout)
             loadBanner()
         }
 
@@ -138,7 +139,6 @@ class ChannelsFragment : Fragment() {
                 val animation = AnimationUtils.loadAnimation(context, R.anim.banner_slideup)
                 animation.setAnimationListener(object : Animation.AnimationListener {
                     override fun onAnimationEnd(p0: Animation?) {
-                        val constraintLayout = channels_constraintlayout
                         val constraintSet = ConstraintSet()
                         constraintSet.clone(constraintLayout)
                         constraintSet.connect(R.id.recyclerview_channels_list, ConstraintSet.BOTTOM, R.id.channels_ad_view_container, ConstraintSet.TOP, 0)

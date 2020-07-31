@@ -10,6 +10,7 @@ import android.widget.FrameLayout
 import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -27,7 +28,6 @@ import com.jppappstudio.mediafeedplayer.android.BuildConfig
 import com.jppappstudio.mediafeedplayer.android.MainActivity
 import com.jppappstudio.mediafeedplayer.android.R
 import com.jppappstudio.mediafeedplayer.android.ui.favourites.FavouritesViewModel
-import kotlinx.android.synthetic.main.fragment_listings.*
 import kotlinx.android.synthetic.main.fragment_listings.view.*
 import okhttp3.*
 import org.xmlpull.v1.XmlPullParserException
@@ -53,6 +53,7 @@ class ListingsFragment : Fragment() {
     private var showBannerAds = BuildConfig.ALLOW_LISTINGS_BANNER
     private lateinit var adView: AdView
     private lateinit var listingsAdViewContainer: FrameLayout
+    private lateinit var constraintLayout: ConstraintLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -91,6 +92,7 @@ class ListingsFragment : Fragment() {
         if (showBannerAds) {
             if (listingsViewModel.listings.isEmpty()) {
                 listingsAdViewContainer = root.findViewById(R.id.listings_ad_view_container)
+                constraintLayout = root.findViewById(R.id.listings_constraintlayout)
                 loadBanner()
             }
         }
@@ -212,7 +214,6 @@ class ListingsFragment : Fragment() {
                 val animation = AnimationUtils.loadAnimation(context, R.anim.banner_slideup)
                 animation.setAnimationListener(object : Animation.AnimationListener {
                     override fun onAnimationEnd(p0: Animation?) {
-                        val constraintLayout = listings_constraintlayout
                         val constraintSet = ConstraintSet()
                         constraintSet.clone(constraintLayout)
                         constraintSet.connect(R.id.recyclerview_listings, ConstraintSet.BOTTOM, R.id.listings_ad_view_container, ConstraintSet.TOP, 0)
