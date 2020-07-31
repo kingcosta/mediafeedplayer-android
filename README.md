@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## Unreleased
 ### [Added]
 
+## [1.1.6] - 2020-07-31
+### [Changes]
+- Move interstitial to player activity to allow video load while interstitial is in foreground
+- Break out favourite into its own separate ad unit
+- Add explicit reference to constraint layout instead of relying on Kotlin Extension
+
 ## [1.1.5] - 2020-07-26
 ### [Added]
 - Firebase crashlytic tracking
