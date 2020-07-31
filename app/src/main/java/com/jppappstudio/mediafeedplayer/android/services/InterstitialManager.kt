@@ -18,14 +18,6 @@ class InterstitialManager private constructor(context: Context){
         mInsterstitialAd.adUnitId = BuildConfig.INTERSTITIAL_ADUNIT_ID
 
         mInsterstitialAd.adListener = object: AdListener() {
-            override fun onAdLoaded() {
-                super.onAdLoaded()
-            }
-
-            override fun onAdFailedToLoad(p0: Int) {
-                super.onAdFailedToLoad(p0)
-            }
-
             override fun onAdClosed() {
                 super.onAdClosed()
                 onAdClosedHandler()

@@ -1,6 +1,7 @@
 package com.jppappstudio.mediafeedplayer.android.ui.player
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.os.Bundle
@@ -19,6 +20,10 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
+import com.jppappstudio.mediafeedplayer.android.BuildConfig
 import com.jppappstudio.mediafeedplayer.android.R
 import com.jppappstudio.mediafeedplayer.android.services.InterstitialManager
 
@@ -29,7 +34,8 @@ class PlayerActivity: AppCompatActivity(), Player.EventListener {
     lateinit var btFullScreen: ImageView
     lateinit var btBack: ImageView
     lateinit var simpleExoPlayer: SimpleExoPlayer
-    var flag = false
+    var fullscreenFlag = false
+    private var showInterstitial = BuildConfig.ALLOW_INTERSTITIAL
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,7 +74,10 @@ class PlayerActivity: AppCompatActivity(), Player.EventListener {
     override fun onDestroy() {
         super.onDestroy()
         simpleExoPlayer.release()
-        InterstitialManager.getInstance(this).loadNewInterstitialAd()
+
+        if (showInterstitial) {
+            InterstitialManager.getInstance(this).loadNewInterstitialAd()
+        }
     }
 
     private fun setupPlayer() {
@@ -97,31 +106,47 @@ class PlayerActivity: AppCompatActivity(), Player.EventListener {
         // prepare media
         simpleExoPlayer.prepare(mediaSource)
         // play video when ready
-        simpleExoPlayer.playWhenReady = true
+        simpleExoPlayer.playWhenReady = false
         simpleExoPlayer.addListener(this)
 
         btFullScreen.setOnClickListener(View.OnClickListener {
-            if (flag) {
+            if (fullscreenFlag) {
                 // when flag is true
                 // set enter full screen image
                 btFullScreen.setImageResource(R.drawable.ic_fullscreen)
                 // set portrait orientation
                 requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
                 // set flag value is false
-                flag = false
+                fullscreenFlag = false
             } else {
                 // when flag is false
                 btFullScreen.setImageResource(R.drawable.ic_fullscreen_exit)
                 // set landscape orientation
                 requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
                 // set flag value is true
-                flag = true
+                fullscreenFlag = true
             }
         })
 
         btBack.setOnClickListener(View.OnClickListener {
             finish()
         })
+
+        val startPlaying = {
+            hideSystemUI()
+            simpleExoPlayer.playWhenReady = true
+        }
+
+        if (showInterstitial) {
+            if (InterstitialManager.getInstance(applicationContext).mInsterstitialAd.isLoaded) {
+                InterstitialManager.getInstance(applicationContext).setOnClosedHandler(startPlaying)
+                InterstitialManager.getInstance(applicationContext).mInsterstitialAd.show()
+            } else {
+                startPlaying()
+            }
+        } else {
+            startPlaying()
+        }
     }
 
     override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {

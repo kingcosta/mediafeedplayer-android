@@ -168,7 +168,7 @@ class ListingsViewHolder(val view: View, var listing: Listing? = null): Recycler
                     }
 
                     "video/mp4" -> {
-                        val playVideo = {
+                        val startPlayer = {
                             val intent = Intent(view.context, PlayerActivity::class.java)
                             intent.putExtra("videoURL", it.url)
                             view.context.startActivity(intent)
@@ -178,12 +178,7 @@ class ListingsViewHolder(val view: View, var listing: Listing? = null): Recycler
                             }
                         }
 
-                        if (InterstitialManager.getInstance(view.context).mInsterstitialAd.isLoaded) {
-                            InterstitialManager.getInstance(view.context).setOnClosedHandler(playVideo)
-                            InterstitialManager.getInstance(view.context).mInsterstitialAd.show()
-                        } else {
-                            playVideo()
-                        }
+                        startPlayer()
                     }
 
                     "web/html" -> {

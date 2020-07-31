@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     private var showAds = BuildConfig.ALLOW_NAVIGATION_BANNER
     private lateinit var adView: AdView
     private lateinit var navAdViewContainer: FrameLayout
+    private var showInterstitial = BuildConfig.ALLOW_INTERSTITIAL
 
     private var currentNavController: LiveData<NavController>? = null
 
@@ -70,7 +71,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        InterstitialManager.getInstance(this).loadNewInterstitialAd()
+
+        if (showInterstitial) {
+            InterstitialManager.getInstance(this).loadNewInterstitialAd()
+        }
     }
 
     private fun checkForDynamicLinks() {
