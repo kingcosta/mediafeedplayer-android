@@ -34,7 +34,7 @@ class FavouritesFragment : Fragment() {
     private lateinit var favouritesViewModel: FavouritesViewModel
     private lateinit var backgroundView: LinearLayout
 
-    private var showBannerAds = BuildConfig.ALLOW_LISTINGS_BANNER
+    private var showBannerAds = BuildConfig.ALLOW_FAVOURITES_BANNER
     private lateinit var adView: AdView
     private lateinit var favouritesAdViewContainer: FrameLayout
     private lateinit var constraintLayout: ConstraintLayout
@@ -95,7 +95,7 @@ class FavouritesFragment : Fragment() {
     private fun loadBanner() {
         adView = AdView(context)
         adView.adSize = getAdaptiveBannerSize(requireContext(), favouritesAdViewContainer.width.toFloat())
-        adView.adUnitId = BuildConfig.LISTINGS_ADUNIT_ID
+        adView.adUnitId = BuildConfig.FAVOURITES_ADUNIT_ID
 
         adView.adListener = object: AdListener() {
             override fun onAdLoaded() {

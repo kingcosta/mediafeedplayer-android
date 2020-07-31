@@ -33,10 +33,12 @@ android {
             buildConfigField("Boolean", 'ALLOW_NAVIGATION_BANNER', "false")
             buildConfigField("Boolean", 'ALLOW_CHANNELS_BANNER', "true")
             buildConfigField("Boolean", 'ALLOW_LISTINGS_BANNER', "true")
+            buildConfigField("Boolean", 'ALLOW_FAVOURITES_BANNER', "true")
 
             buildConfigField("String", 'INTERSTITIAL_ADUNIT_ID', "\"ca-app-pub-3940256099942544/1033173712\"")
             buildConfigField("String", 'CHANNELS_ADUNIT_ID', "\"ca-app-pub-3940256099942544/6300978111\"")
             buildConfigField("String", 'LISTINGS_ADUNIT_ID', "\"ca-app-pub-3940256099942544/6300978111\"")
+            buildConfigField("String", 'FAVOURITES_ADUNIT_ID', "\"ca-app-pub-3940256099942544/6300978111\"")
             buildConfigField("String", 'NAVIGATION_ADUNIT_ID', "\"ca-app-pub-3940256099942544/6300978111\"")
 
             FirebasePerformance {
@@ -55,10 +57,12 @@ android {
             buildConfigField("Boolean", 'ALLOW_NAVIGATION_BANNER', "false")
             buildConfigField("Boolean", 'ALLOW_CHANNELS_BANNER', "true")
             buildConfigField("Boolean", 'ALLOW_LISTINGS_BANNER', "true")
+            buildConfigField("Boolean", 'ALLOW_FAVOURITES_BANNER', "true")
 
             buildConfigField("String", 'INTERSTITIAL_ADUNIT_ID', "\"ca-app-pub-8588299029427703/8686274342\"")
             buildConfigField("String", 'CHANNELS_ADUNIT_ID', "\"ca-app-pub-8588299029427703/1536210936\"")
             buildConfigField("String", 'LISTINGS_ADUNIT_ID', "\"ca-app-pub-8588299029427703/5782863119\"")
+            buildConfigField("String", 'FAVOURITES_ADUNIT_ID', "\"ca-app-pub-8588299029427703/8067724028\"")
             buildConfigField("String", 'NAVIGATION_ADUNIT_ID', "\"ca-app-pub-8588299029427703/6521229714\"")
 
             minifyEnabled true
