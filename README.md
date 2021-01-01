@@ -5,8 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [1.1.7] - 2021-01-01
+### [Changes]
+- Update third party SDK version
+
 ### [Added]
+- Prepare AdMob open bidding
+- FAN SDK in preparation for open bidding and mediation
 
 ## [1.1.6] - 2020-07-31
 ### [Changes]

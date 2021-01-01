@@ -59,11 +59,11 @@ class MainActivity : AppCompatActivity() {
         val testDeviceIds = listOf("")
         val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
         MobileAds.setRequestConfiguration(configuration)
-        MobileAds.initialize(this) {}
-
-        if (showAds) {
-            navAdViewContainer = findViewById(R.id.nav_ad_view_container)
-            loadBanner()
+        MobileAds.initialize(this) {
+            if (showAds) {
+                navAdViewContainer = findViewById(R.id.nav_ad_view_container)
+                loadBanner()
+            }
         }
 
         checkForDynamicLinks()
